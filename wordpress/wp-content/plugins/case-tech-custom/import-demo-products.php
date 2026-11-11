@@ -18,7 +18,7 @@ require_once ABSPATH . 'wp-admin/includes/image.php';
 $catalog = array(
     array( 'brand' => 'Apple',   'model' => 'iPhone 11',      'slug' => 'iphone-11',      'sku' => 'CASE-APPLE-11',       'price' => '149.00', 'image' => 'demo-iphone-11-case.jpg' ),
     array( 'brand' => 'Apple',   'model' => 'iPhone 13',      'slug' => 'iphone-13',      'sku' => 'CASE-APPLE-13',       'price' => '159.00', 'image' => 'demo-iphone-13-case.jpg' ),
-    array( 'brand' => 'Apple',   'model' => 'iPhone 15',      'slug' => 'iphone-15',      'sku' => 'CASE-APPLE-15',       'price' => '169.00', 'image' => 'demo-iphone-15-case.jpg' ),
+    array( 'brand' => 'Apple',   'model' => 'iPhone 15',      'slug' => 'iphone-15',      'sku' => 'CASE-APPLE-15',       'price' => '169.00', 'image' => 'demo-iphone-15-case.jpg', 'colors' => array( 'Negro', 'Transparente' ) ),
     array( 'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',     'sku' => 'CASE-SAMSUNG-A15',    'price' => '129.00', 'image' => 'demo-samsung-a15-case.jpg' ),
     array( 'brand' => 'Samsung', 'model' => 'Galaxy A55',    'slug' => 'galaxy-a55',     'sku' => 'CASE-SAMSUNG-A55',    'price' => '149.00', 'image' => 'demo-samsung-a55-case.jpg' ),
     array( 'brand' => 'Samsung', 'model' => 'Galaxy S24',    'slug' => 'galaxy-s24',     'sku' => 'CASE-SAMSUNG-S24',    'price' => '169.00', 'image' => 'demo-samsung-s24-case.jpg' ),
@@ -89,6 +89,92 @@ if ( taxonomy_exists( $type_taxonomy ) ) {
     }
 }
 
+$color_taxonomy = 'pa_color';
+if ( ! taxonomy_exists( $color_taxonomy ) ) {
+    $color_attribute_id = wc_create_attribute( array(
+        'name'         => 'Color',
+        'slug'         => 'color',
+        'type'         => 'select',
+        'order_by'     => 'menu_order',
+        'has_archives' => false,
+    ) );
+    if ( is_wp_error( $color_attribute_id ) ) {
+        WP_CLI::warning( 'No se pudo crear el atributo Color: ' . $color_attribute_id->get_error_message() );
+    } else {
+        register_taxonomy( $color_taxonomy, array( 'product' ), array( 'hierarchical' => false, 'label' => 'Color' ) );
+    }
+}
+
+/**
+ * Devuelve el adjunto creado a partir de un archivo del tema; lo reutiliza si ya existe.
+ * $crop = true sube un acercamiento al centro de la imagen (vista de detalle para la galería).
+ */
+function case_tech_demo_attachment( $image_path, $source_key, $title, $crop = false ) {
+    $existing = get_posts( array(
+        'post_type'      => 'attachment',
+        'post_status'    => 'inherit',
+        'posts_per_page' => 1,
+        'meta_key'       => '_case_tech_source_file',
+        'meta_value'     => $source_key,
+        'fields'         => 'ids',
+    ) );
+    if ( $existing ) {
+        return (int) $existing[0];
+    }
+
+    $tmp_image = wp_tempnam( $image_path );
+    if ( $crop ) {
+        $editor = wp_get_image_editor( $image_path );
+        if ( is_wp_error( $editor ) ) {
+            WP_CLI::warning( 'No se pudo recortar ' . basename( $image_path ) . ': ' . $editor->get_error_message() );
+            return 0;
+        }
+        $size = $editor->get_size();
+        $w    = (int) ( $size['width'] * 0.6 );
+        $h    = (int) ( $size['height'] * 0.6 );
+        $editor->crop( (int) ( ( $size['width'] - $w ) / 2 ), (int) ( ( $size['height'] - $h ) / 2 ), $w, $h, $size['width'], $size['height'] );
+        $saved = $editor->save( $tmp_image, 'image/jpeg' );
+        if ( is_wp_error( $saved ) ) {
+            WP_CLI::warning( 'No se pudo guardar el detalle de ' . basename( $image_path ) );
+            return 0;
+        }
+        if ( $saved['path'] !== $tmp_image ) {
+            unlink( $tmp_image ); // El editor cambia la extensión .tmp por .jpg.
+        }
+        $tmp_image = $saved['path'];
+    } else {
+        copy( $image_path, $tmp_image );
+    }
+
+    $file = array(
+        'name'     => ( $crop ? 'detalle-' : '' ) . basename( $image_path ),
+        'tmp_name' => $tmp_image,
+        'type'     => 'image/jpeg',
+        'error'    => 0,
+        'size'     => filesize( $tmp_image ),
+    );
+    $attachment_id = media_handle_sideload( $file, 0, $title );
+    if ( file_exists( $tmp_image ) ) {
+        unlink( $tmp_image );
+    }
+    if ( is_wp_error( $attachment_id ) ) {
+        WP_CLI::warning( 'No se pudo subir ' . $file['name'] . ': ' . $attachment_id->get_error_message() );
+        return 0;
+    }
+    update_post_meta( $attachment_id, '_case_tech_source_file', $source_key );
+    $GLOBALS['case_tech_new_images']++;
+    return (int) $attachment_id;
+}
+
+/** Devuelve el ID de un término, creándolo si no existe; 0 si falla. */
+function case_tech_demo_term_id( $name, $taxonomy ) {
+    $term = term_exists( $name, $taxonomy );
+    if ( ! $term ) {
+        $term = wp_insert_term( $name, $taxonomy, array( 'slug' => sanitize_title( $name ) ) );
+    }
+    return ( $term && ! is_wp_error( $term ) ) ? (int) ( is_array( $term ) ? $term['term_id'] : $term ) : 0;
+}
+
 $model_terms = array();
 if ( taxonomy_exists( $attribute_taxonomy ) ) {
     foreach ( $catalog as $item ) {
@@ -104,12 +190,14 @@ if ( taxonomy_exists( $attribute_taxonomy ) ) {
 
 $created = 0;
 $updated = 0;
-$images = 0;
+$GLOBALS['case_tech_new_images'] = 0;
 
 foreach ( $catalog as $item ) {
-    $product_id = wc_get_product_id_by_sku( $item['sku'] );
-    $product = $product_id ? wc_get_product( $product_id ) : new WC_Product_Simple();
-    $is_new = ! $product_id;
+    $product_id   = wc_get_product_id_by_sku( $item['sku'] );
+    $is_variable  = ! empty( $item['colors'] ) && taxonomy_exists( $color_taxonomy );
+    // Instanciar por clase (no wc_get_product) permite convertir un simple existente en variable.
+    $product      = $is_variable ? new WC_Product_Variable( $product_id ) : new WC_Product_Simple( $product_id );
+    $is_new       = ! $product_id;
 
     $product->set_name( 'Case ' . $item['model'] );
     $product->set_slug( 'case-' . $item['slug'] );
@@ -128,11 +216,16 @@ foreach ( $catalog as $item ) {
         $item['model']
     ) );
     $product->set_sku( $item['sku'] );
-    $product->set_regular_price( $item['price'] );
-    $product->set_price( $item['price'] );
-    $product->set_manage_stock( true );
-    $product->set_stock_quantity( 10 );
-    $product->set_stock_status( 'instock' );
+    if ( $is_variable ) {
+        // Precio e inventario viven en cada variación.
+        $product->set_manage_stock( false );
+    } else {
+        $product->set_regular_price( $item['price'] );
+        $product->set_price( $item['price'] );
+        $product->set_manage_stock( true );
+        $product->set_stock_quantity( 10 );
+        $product->set_stock_status( 'instock' );
+    }
     $product->set_category_ids( array( $cases_term_id, $brand_terms[ $item['brand'] ] ) );
     $product_attributes = array();
     if ( ! empty( $model_terms[ $item['model'] ] ) ) {
@@ -155,48 +248,61 @@ foreach ( $catalog as $item ) {
         $type_attribute->set_variation( false );
         $product_attributes[] = $type_attribute;
     }
+    $color_terms = array();
+    if ( $is_variable ) {
+        foreach ( $item['colors'] as $color ) {
+            $color_term_id = case_tech_demo_term_id( $color, $color_taxonomy );
+            if ( $color_term_id ) {
+                $color_terms[ $color_term_id ] = get_term( $color_term_id, $color_taxonomy )->slug;
+            }
+        }
+        $color_attribute = new WC_Product_Attribute();
+        $color_attribute->set_id( wc_attribute_taxonomy_id_by_name( $color_taxonomy ) );
+        $color_attribute->set_name( $color_taxonomy );
+        $color_attribute->set_options( array_keys( $color_terms ) );
+        $color_attribute->set_position( 2 );
+        $color_attribute->set_visible( true );
+        $color_attribute->set_variation( true );
+        $product_attributes[] = $color_attribute;
+    }
     if ( $product_attributes ) {
         $product->set_attributes( $product_attributes );
     }
 
     $image_path = $base_dir . $item['image'];
     if ( file_exists( $image_path ) ) {
-        $existing_attachment = get_posts( array(
-            'post_type'      => 'attachment',
-            'post_status'    => 'inherit',
-            'posts_per_page' => 1,
-            'meta_key'       => '_case_tech_source_file',
-            'meta_value'     => $item['image'],
-            'fields'         => 'ids',
-        ) );
-        $attachment_id = ! empty( $existing_attachment ) ? (int) $existing_attachment[0] : 0;
-        if ( ! $attachment_id ) {
-            $tmp_image = wp_tempnam( $image_path );
-            copy( $image_path, $tmp_image );
-            $file = array(
-                'name'     => basename( $image_path ),
-                'tmp_name' => $tmp_image,
-                'type'     => mime_content_type( $image_path ),
-                'error'    => 0,
-                'size'     => filesize( $tmp_image ),
-            );
-            $attachment_id = media_handle_sideload( $file, 0, 'Imagen demo: ' . $item['model'] );
-            if ( ! is_wp_error( $attachment_id ) ) {
-                update_post_meta( $attachment_id, '_case_tech_source_file', $item['image'] );
-                $images++;
-            }
-            if ( file_exists( $tmp_image ) ) {
-                unlink( $tmp_image );
-            }
-        }
-        if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
+        $attachment_id = case_tech_demo_attachment( $image_path, $item['image'], 'Imagen demo: ' . $item['model'] );
+        if ( $attachment_id ) {
             $product->set_image_id( $attachment_id );
+        }
+        $detail_id = case_tech_demo_attachment( $image_path, 'detalle-' . $item['image'], 'Detalle demo: ' . $item['model'], true );
+        if ( $detail_id ) {
+            $product->set_gallery_image_ids( array( $detail_id ) );
         }
     } else {
         WP_CLI::warning( 'No se encontró la imagen: ' . $image_path );
     }
 
     $saved_id = $product->save();
+    if ( $is_variable ) {
+        wp_set_object_terms( $saved_id, 'variable', 'product_type' );
+        foreach ( $color_terms as $color_slug ) {
+            $variation_sku = $item['sku'] . '-' . strtoupper( $color_slug );
+            $variation_id  = wc_get_product_id_by_sku( $variation_sku );
+            $variation     = new WC_Product_Variation( $variation_id );
+            $variation->set_parent_id( $saved_id );
+            $variation->set_sku( $variation_sku );
+            $variation->set_attributes( array( $color_taxonomy => $color_slug ) );
+            $variation->set_regular_price( $item['price'] );
+            $variation->set_manage_stock( true );
+            $variation->set_stock_quantity( 5 );
+            $variation->set_stock_status( 'instock' );
+            $variation->set_status( 'publish' );
+            $variation->save();
+        }
+        WC_Product_Variable::sync( $saved_id );
+        wc_delete_product_transients( $saved_id );
+    }
     update_post_meta( $saved_id, '_case_tech_brand', $item['brand'] );
     update_post_meta( $saved_id, '_case_tech_model', $item['model'] );
     update_post_meta( $saved_id, '_case_tech_demo', 'yes' );
@@ -209,4 +315,4 @@ foreach ( $catalog as $item ) {
     WP_CLI::log( ( $is_new ? 'Creado: ' : 'Actualizado: ' ) . $item['sku'] . ' — ' . $item['model'] );
 }
 
-WP_CLI::success( sprintf( 'Catálogo listo: %d creados, %d actualizados, %d imágenes nuevas.', $created, $updated, $images ) );
+WP_CLI::success( sprintf( 'Catálogo listo: %d creados, %d actualizados, %d imágenes nuevas.', $created, $updated, $GLOBALS['case_tech_new_images'] ) );

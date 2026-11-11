@@ -334,3 +334,13 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Validación (Playground, instalación limpia):** sin filtros devuelve 12; `case_type=case` devuelve 12; con Apple, 3; con Samsung + Galaxy A15, 1; un tipo inexistente devuelve 0 y mantiene los filtros visibles. No hubo errores fatales.
 - **Nota:** la Tienda responde en `/shop/` (solo se tradujo el título, no el slug); `/tienda/` da 404.
 - **Siguiente paso:** galería de imágenes y producto variable (P2) y flujo completo de pedido (P4).
+
+
+### 2026-11-11 — P2: galería y producto variable
+
+- **Cambio (tema):** soporte `wc-product-gallery-zoom`, `-lightbox` y `-slider`. El selector de variaciones usa el estilo de los filtros, y el botón `.alt`/deshabilitado ya no sale morado (CSS 0.1.3).
+- **Cambio (importador):** cada producto tiene una segunda imagen de galería: un acercamiento al centro de su propia foto (`detalle-*.jpg`), para no mostrar la foto de otro modelo. La subida de imágenes quedó en `case_tech_demo_attachment()`, que reutiliza el adjunto si ya existe.
+- **Cambio (importador):** Case iPhone 15 pasa a ser variable con el atributo global `Color` (`pa_color`): Negro y Transparente a Q169.00, con 5 unidades cada uno. Se instancia por clase (`WC_Product_Variable`), así que si en Docker ya existía como simple se convierte al volver a correr el importador.
+- **Validación (Playground, instalación limpia):** 12 productos con 2 imágenes cada uno; la ficha muestra el slider, la lupa y el selector de color. Por la Store API: la variación Negro entra al carrito (Q169 + Q25 de envío = Q194). Pedido #56 por transferencia en estado "en espera"; el inventario de Negro bajó de 5 a 4.
+- **Alertas/faltantes:** las dos variaciones usan la misma foto (la del case transparente). El H1 "Tienda" aparece también en la ficha además del nombre del producto. Al probar con `curl`, el departamento de la dirección va sin prefijo (`GU`, no `GT-GU`).
+- **Siguiente paso:** probar en el navegador el flujo completo de pedido (P4): carrito, checkout, correo y Mi cuenta.

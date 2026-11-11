@@ -100,9 +100,9 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 - [x] Advertencia de modelo exacto.
 - [x] Envío Q25.00 y pago por transferencia visibles.
 - [x] CTA de compra destacado.
-- [ ] Galería de imágenes: activar el soporte `wc-product-gallery-zoom/lightbox/slider` en el tema y cargar al menos 2 imágenes por producto demo.
+- [x] Galería de imágenes: zoom, lightbox y slider activos; cada producto demo tiene la foto principal y un acercamiento de detalle generado por el importador.
 - [x] Productos relacionados de la misma marca o modelo, filtrados por compatibilidad. **Corregido:** se ignora la categoría raíz `cases`. **Hallazgo original:** hoy la ficha del Galaxy A15 recomienda S24, iPhone 15, POCO X6 e iPhone 13, porque todos comparten la categoría padre `Cases`.
-- [ ] Productos variables: convertir al menos un producto demo en variable (por ejemplo, por color) para cumplir el criterio de éxito de `SPEC.md` ("agregar una variación al carrito").
+- [x] Productos variables: Case iPhone 15 es variable por `Color` (Negro, Transparente; SKU `CASE-APPLE-15-NEGRO` y `-TRANSPARENTE`, 5 unidades cada uno). Validado: variación al carrito y pedido de prueba.
 
 ## Prioridad 3 — Confianza y contenido comercial
 
