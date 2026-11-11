@@ -12,3 +12,4 @@ wordpress/wp-content/cache/
 .vscode/
 Thumbs.db
 node_modules/
+.playwright-mcp/

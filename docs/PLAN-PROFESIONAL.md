@@ -122,7 +122,7 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 
 ## Prioridad 4 — Carrito y checkout profesional
 
-**Estado: Configuración validada; falta el flujo completo del pedido.**
+**Estado: Flujo completo validado en el navegador (Playground) el 2026-11-11; faltan los correos en Mailpit.**
 
 - [x] País Guatemala y moneda GTQ.
 - [x] Envío plano Q25.00.
@@ -133,10 +133,10 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 - [x] Países restringidos a Guatemala.
 - [x] El checkout muestra `Envío nacional — Q25.00`.
 - [x] Los 22 departamentos aceptan la tarifa de Q25.00.
-- [ ] Resumen de pedido claro en carrito y checkout.
-- [ ] Validaciones y errores en español (comprobar que WooCommerce está en `es_ES`).
-- [ ] Teléfono obligatorio con formato guatemalteco (8 dígitos) y campos sobrantes ocultos (código postal, empresa).
-- [ ] Página de confirmación con número de pedido e instrucciones de transferencia: se prueba en Playground.
+- [x] Resumen de pedido claro en carrito y checkout (producto, color, subtotal, envío Q25.00 y total).
+- [x] Validaciones y errores en español.
+- [x] Teléfono obligatorio de 8 dígitos (acepta espacios, guiones y +502); se ocultan el código postal y la empresa.
+- [x] Página de confirmación con número de pedido, instrucciones y tabla de datos bancarios demo.
 - [ ] Correos de pedido revisados en Mailpit: **solo en Docker o Codespaces**.
 
 ## Prioridad 5 — Conversión y recompra

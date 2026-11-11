@@ -344,3 +344,13 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Validación (Playground, instalación limpia):** 12 productos con 2 imágenes cada uno; la ficha muestra el slider, la lupa y el selector de color. Por la Store API: la variación Negro entra al carrito (Q169 + Q25 de envío = Q194). Pedido #56 por transferencia en estado "en espera"; el inventario de Negro bajó de 5 a 4.
 - **Alertas/faltantes:** las dos variaciones usan la misma foto (la del case transparente). El H1 "Tienda" aparece también en la ficha además del nombre del producto. Al probar con `curl`, el departamento de la dirección va sin prefijo (`GU`, no `GT-GU`).
 - **Siguiente paso:** probar en el navegador el flujo completo de pedido (P4): carrito, checkout, correo y Mi cuenta.
+
+
+### 2026-11-11 — P4: flujo completo del pedido en el navegador
+
+- **Hallazgo:** el carrito y el checkout de WooCommerce usan bloques, así que `woocommerce_checkout_fields` no sirve. Los ajustes se hacen con opciones, `woocommerce_get_country_locale` y la Store API.
+- **Cambio (`configure-store.php`):** teléfono obligatorio y empresa oculta (`woocommerce_checkout_*_field`). Se añade `woocommerce_bacs_accounts`: sin esa opción, la confirmación no mostraba la tabla de datos bancarios.
+- **Cambio (plugin):** se oculta el código postal para GT. `case_tech_is_guatemala_phone()` exige 8 dígitos y acepta espacios, guiones y +502. Valida en la Store API (`RouteException`) y también en el checkout clásico.
+- **Prueba en el navegador (Playwright, 1280 px):** Case iPhone 15 Negro → carrito con Q169 + Q25 = Q194. El checkout pide correo, nombre, dirección, ciudad, departamento y teléfono. Con "1234" muestra un error en español; con "+502 5555-1234" crea el pedido #56 y la confirmación muestra el número, el total, las instrucciones y la cuenta BAM demo.
+- **Alertas/faltantes:** el botón "Finalizar compra" del carrito es gris (estilo por defecto de los bloques), no naranja. No se probó en móvil. Los correos solo se pueden revisar en Docker o Codespaces (Mailpit).
+- **Siguiente paso:** P5 (destacados desde WooCommerce, ventas cruzadas y mensajes de stock), o los correos en Codespaces.

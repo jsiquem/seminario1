@@ -35,6 +35,24 @@ $bacs_settings = array(
     'bic'          => '',
 );
 update_option( 'woocommerce_bacs_settings', $bacs_settings );
+// La tabla de "Nuestros datos bancarios" de la confirmación y del correo lee esta opción.
+update_option(
+    'woocommerce_bacs_accounts',
+    array(
+        array(
+            'account_name'   => 'Case-Tech Demo',
+            'account_number' => '0000-000000-0',
+            'bank_name'      => 'BAM (cuenta demo)',
+            'sort_code'      => '',
+            'iban'           => '',
+            'bic'            => '',
+        ),
+    )
+);
+
+// Checkout: teléfono obligatorio (se valida en el plugin) y sin empresa.
+update_option( 'woocommerce_checkout_phone_field', 'required' );
+update_option( 'woocommerce_checkout_company_field', 'hidden' );
 
 $zone = null;
 foreach ( WC_Shipping_Zones::get_zones() as $zone_data ) {

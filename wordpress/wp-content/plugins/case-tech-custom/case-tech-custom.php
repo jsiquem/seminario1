@@ -47,6 +47,43 @@ function case_tech_only_guatemala( $countries ) {
 add_filter( 'woocommerce_countries_allowed_countries', 'case_tech_only_guatemala' );
 add_filter( 'woocommerce_countries_shipping_countries', 'case_tech_only_guatemala' );
 
+// Guatemala no usa código postal en la práctica; se oculta en el checkout clásico y en el de bloques.
+function case_tech_guatemala_locale( $locale ) {
+    $locale['GT']['postcode'] = array( 'required' => false, 'hidden' => true );
+    return $locale;
+}
+add_filter( 'woocommerce_get_country_locale', 'case_tech_guatemala_locale' );
+
+/** Teléfono guatemalteco: 8 dígitos; acepta espacios, guiones y el prefijo +502. */
+function case_tech_is_guatemala_phone( $phone ) {
+    $digits = preg_replace( '/\D/', '', (string) $phone );
+    if ( 11 === strlen( $digits ) && 0 === strpos( $digits, '502' ) ) {
+        $digits = substr( $digits, 3 );
+    }
+    return 1 === preg_match( '/^\d{8}$/', $digits );
+}
+
+function case_tech_phone_error_message() {
+    return 'Ingresa un teléfono de Guatemala válido: 8 dígitos, por ejemplo 5555 1234.';
+}
+
+// Checkout de bloques (Store API).
+function case_tech_validate_store_api_phone( $order ) {
+    $phone = $order->get_billing_phone() ? $order->get_billing_phone() : $order->get_shipping_phone();
+    if ( ! case_tech_is_guatemala_phone( $phone ) ) {
+        throw new \Automattic\WooCommerce\StoreApi\Exceptions\RouteException( 'case_tech_invalid_phone', case_tech_phone_error_message(), 400 );
+    }
+}
+add_action( 'woocommerce_store_api_checkout_update_order_from_request', 'case_tech_validate_store_api_phone' );
+
+// Checkout clásico (shortcode), por si una instalación lo usa.
+function case_tech_validate_classic_phone( $data, $errors ) {
+    if ( isset( $data['billing_phone'] ) && ! case_tech_is_guatemala_phone( $data['billing_phone'] ) ) {
+        $errors->add( 'billing_phone', case_tech_phone_error_message() );
+    }
+}
+add_action( 'woocommerce_after_checkout_validation', 'case_tech_validate_classic_phone', 10, 2 );
+
 function case_tech_custom_shop_page_id() {
     $shop_id = absint( get_option( 'woocommerce_shop_page_id' ) );
     if ( ! $shop_id && function_exists( 'wc_get_page_id' ) ) {
