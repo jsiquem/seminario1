@@ -1,0 +1,13 @@
+.env
+*.log
+.DS_Store
+*.sql
+*.sql.gz
+*.zip
+*.tar
+*.tar.gz
+wordpress/wp-content/uploads/
+wordpress/wp-content/cache/
+.idea/
+.vscode/
+Thumbs.db
