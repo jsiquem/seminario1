@@ -388,3 +388,12 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **404:** nueva plantilla `404.php` con buscador y botón a la tienda.
 - **Resultado:** axe sin violaciones del tema. Quedan `aria-prohibited-attr` en el esqueleto de carga del checkout (WooCommerce) y el botón deshabilitado de variaciones (exento). Sin desborde horizontal y sin avisos del tema o del plugin en el log. CSS 0.1.7.
 - **Siguiente paso:** P7 (producción) necesita Docker o Codespaces y decisiones del negocio. Desde esta PC aún se puede probar el carrito persistente con una cuenta de cliente.
+
+
+### 2026-11-11 — P5 cerrada: carrito persistente y micas visibles
+
+- **Prueba:** se creó un cliente (`cliente-demo`, rol customer) con la API REST de WooCommerce. Inició sesión, añadió la Mica iPhone 15 y cerró el navegador. En un navegador limpio el carrito empezó vacío; al volver a iniciar sesión, la mica estaba en el carrito.
+- **Hallazgo del usuario ("no veo las micas"):** (1) el servidor del puerto 9400 venía de la sesión anterior y tenía los 12 productos originales, porque Playground solo carga los datos al arrancar; (2) el catálogo ordenaba por nombre con 16 productos por página, así que los "Case …" llenaban la página 1 y las micas quedaban en la 2.
+- **Corrección:** `configure-store.php` fija `woocommerce_default_catalog_orderby = date`, para que la página 1 muestre primero las micas y las fundas.
+- **Nota operativa:** para ver los cambios del importador o de la configuración hay que reiniciar `npm run dev` (Ctrl+C y volver a ejecutarlo). El tema y el plugin se montan en vivo, pero los datos no.
+- **Credenciales locales de Playground:** admin / password (solo en el entorno local).

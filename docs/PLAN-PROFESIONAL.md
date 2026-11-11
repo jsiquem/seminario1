@@ -141,12 +141,12 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 
 ## Prioridad 5 — Conversión y recompra
 
-**Estado: Validada en Playground el 2026-11-11, salvo el carrito persistente.**
+**Estado: Validada en Playground el 2026-11-11.**
 
 - [x] Productos destacados en la portada, tomados de WooCommerce (estrella de destacado); si no hay, se muestran los más recientes. El importador destaca uno por marca.
 - [x] Ventas cruzadas en el carrito: case, funda y mica del mismo modelo se recomiendan entre sí ("Puede que te interese…"). Los relacionados por marca ya funcionaban (P2).
 - [x] Mensajes de stock: "Solo quedan 3 disponibles" desde 3 unidades (`woocommerce_stock_format = low_amount`), "Hay existencias" o "Agotado". Demo: P30 lite con 3 unidades.
-- [ ] Carrito persistente para usuarios con sesión (nativo de WooCommerce): falta verificarlo con una cuenta de cliente.
+- [x] Carrito persistente para clientes con sesión (nativo de WooCommerce): verificado con la cuenta `cliente-demo` iniciando sesión desde un navegador limpio.
 - [x] "Seguir comprando" en el aviso de producto añadido y bajo "Finalizar compra" en el carrito.
 - [x] Botón de WhatsApp (enlace `wa.me`) con un número demo editable en Apariencia → Personalizar → Contacto; vacío lo oculta. No aparece en el carrito ni en el checkout.
 
