@@ -375,7 +375,7 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Importador:** el campo `type` del catálogo (por defecto Case) define el nombre, el slug, el término `pa_tipo-producto` y los textos (`$type_texts`). Las micas se describen como repuesto sin instalación. Al final se asignan ventas cruzadas entre los productos del mismo modelo.
 - **Validación:** la Store API devuelve 28 productos, con 5 cases, 1 funda y 1 mica por marca, cada uno con 2 imágenes. El filtro de tipo ofrece Case, Funda y Mica (4 micas y 4 fundas); Apple + iPhone 15 devuelve 2. En el carrito, el Case Galaxy A15 muestra "Puede que te interese… Mica Galaxy A15, Q59.00".
 - **Hallazgo:** como `.entry-content` limita el ancho a 780 px, el carrito de bloques usa el diseño `is-medium` (una columna). Si el botón "Finalizar compra" queda fuera de la pantalla, se oculta hasta que se baja hasta él (comportamiento sticky de WooCommerce). No es un error, pero las capturas de página completa no lo muestran.
-- **Pendiente:** el root de categorías sigue llamándose "Cases" aunque ahora incluye fundas y micas. Faltan fotos reales.
+- **Pendiente:** el root de categorías sigue llamándose "Cases" aunque ahora incluye fundas y micas. Faltan fotos reales (fundas y micas resueltas después con fotos de Pexels).
 
 
 ### 2026-11-11 — P6: calidad, accesibilidad y responsive
@@ -397,3 +397,10 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Corrección:** `configure-store.php` fija `woocommerce_default_catalog_orderby = date`, para que la página 1 muestre primero las micas y las fundas.
 - **Nota operativa:** para ver los cambios del importador o de la configuración hay que reiniciar `npm run dev` (Ctrl+C y volver a ejecutarlo). El tema y el plugin se montan en vivo, pero los datos no.
 - **Credenciales locales de Playground:** admin / password (solo en el entorno local).
+
+### 2026-11-11 — Fotos reales para fundas y micas; lentitud de Playground
+
+- **Lentitud medida:** cada página tarda unos 3,5–4 s y `/wp-admin/` unos 7 s. Una consulta a la Store API sin plantilla tarda lo mismo (3,5 s), y los archivos fijos menos de 0,1 s. El costo es el arranque de WordPress en PHP-WebAssembly + SQLite, no el tema (que añade unos 0,3 s). La solución real es PHP nativo (Docker o Codespaces, P7) o el hosting final.
+- **Imágenes:** `demo-funda.jpg` y `demo-mica.jpg` pasaron de ilustraciones a fotos reales con licencia libre de Pexels (uso comercial, sin atribución obligatoria). Funda: "Smart Phone in Black Case", de Budget Bizar (https://www.pexels.com/photo/14979770/), una funda tipo libro sin logotipos; se dejó cuadrada estirando las filas del borde. Mica: "Hand Holding Tempered Glass", de Rann Vijay (https://www.pexels.com/photo/7742507/), recortada para quitar el teléfono "Galaxy S9+" del fondo. Créditos en `themes/case-tech/CREDITOS-IMAGENES.md`.
+- **Límite:** son fotos genéricas del tipo de producto, no del modelo exacto. Unsplash y las páginas de Pexels bloquean la descarga automática; las búsquedas se hicieron con el navegador de Playwright y las fotos se bajaron del CDN `images.pexels.com`.
+- **Pendiente:** fotos propias de cada modelo antes de vender de verdad.
