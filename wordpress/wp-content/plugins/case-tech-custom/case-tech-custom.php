@@ -390,6 +390,21 @@ function case_tech_product_sales_summary() {
 }
 add_action( 'woocommerce_single_product_summary', 'case_tech_product_sales_summary', 25 );
 
+// La lupa y el lightbox cargaban la foto original (~3 MB); "large" (1024 px) basta.
+function case_tech_gallery_full_size() {
+    return 'large';
+}
+add_filter( 'woocommerce_gallery_full_size', 'case_tech_gallery_full_size' );
+
+// Las fotos demo se comparten entre productos y no tienen alt; en la ficha se usa el nombre del producto.
+function case_tech_product_image_alt( $attr ) {
+    if ( empty( $attr['alt'] ) && function_exists( 'is_product' ) && is_product() ) {
+        $attr['alt'] = get_the_title();
+    }
+    return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'case_tech_product_image_alt' );
+
 // El resumen ya muestra el stock; solo las variaciones conservan el aviso nativo (cambia según el color).
 function case_tech_hide_duplicate_stock_html( $html, $product ) {
     return $product instanceof WC_Product_Variation ? $html : '';

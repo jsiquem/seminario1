@@ -152,16 +152,16 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 
 ## Prioridad 6 — Calidad, accesibilidad y responsive
 
-**Estado: Pendiente.** La revisión visual puede automatizarse con capturas en Playwright sobre Playground.
+**Estado: Validada en Playground el 2026-11-11** con Playwright y axe-core (WCAG 2 A/AA).
 
-- [ ] Capturas en 375, 768, 1280 y 1920 px de Inicio, Tienda, Ficha, Carrito, Checkout y una página institucional.
-- [ ] Navegación completa con teclado y foco visible.
-- [ ] Contraste AA: verificar el naranja `#f97316` sobre blanco en texto pequeño (probablemente no cumple; usar `#c2410c` para texto).
-- [ ] Textos alternativos en logo, productos y tarjetas.
-- [ ] Estados de carga, vacío y error.
-- [ ] Sin desplazamiento horizontal en móvil.
-- [ ] Revisión de `debug.log` sin avisos del tema ni del plugin.
-- [ ] Rendimiento: imágenes demo a 1920×1920 px, que pesan demasiado para una tarjeta; generar tamaños de WooCommerce y comprobar que las tarjetas usan miniaturas.
+- [x] Capturas en 375, 768, 1280 y 1920 px de Inicio, Tienda, Ficha, Carrito, Checkout y Contacto (24 capturas en `.playwright-mcp/p6/`, ignorado por git).
+- [x] Navegación con teclado y foco visible: el buscador del encabezado no mostraba foco sobre el fondo negro; ahora los campos tienen contorno naranja.
+- [x] Contraste AA: texto naranja `--orange-dark: #b84700` (4.8:1 sobre crema), `--muted: #62666a`, números de marca `#9a3b00`, y botón de la franja CTA en tinta. `#ff6a00` solo sobre fondo oscuro o en elementos no textuales. Excepción: el botón deshabilitado de variaciones (WCAG exime los controles inactivos).
+- [x] Textos alternativos: logo decorativo junto al texto de la marca; las tarjetas usan el nombre del producto, y la imagen principal de la ficha recibe el nombre del producto si no tiene alt.
+- [x] Estados vacíos y de error: el carrito vacío ofrece "Volver a la tienda"; la búsqueda sin resultados conserva los filtros; nueva plantilla `404.php` con buscador y botón a la tienda.
+- [x] Sin desplazamiento horizontal en las 6 páginas y los 4 anchos.
+- [x] `debug.log` sin avisos del tema ni del plugin (solo un aviso de traducciones de WooCommerce durante la instalación).
+- [x] Rendimiento: logo de 1.8 MB → `case-tech-logo-mark.png` de 5 KB; portada con el tamaño `large` de la biblioteca; lupa y lightbox con `large`. Imágenes de la portada: 7.5 → 1.9 MB; tienda móvil: 2.1 → 0.3 MB; ficha: 5.3 → 1.4 MB. Playground guarda los tamaños como PNG; en Docker serán JPG y pesarán menos.
 
 ## Prioridad 7 — Preparación para producción
 

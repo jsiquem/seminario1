@@ -376,3 +376,15 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Validación:** la Store API devuelve 28 productos, con 5 cases, 1 funda y 1 mica por marca, cada uno con 2 imágenes. El filtro de tipo ofrece Case, Funda y Mica (4 micas y 4 fundas); Apple + iPhone 15 devuelve 2. En el carrito, el Case Galaxy A15 muestra "Puede que te interese… Mica Galaxy A15, Q59.00".
 - **Hallazgo:** como `.entry-content` limita el ancho a 780 px, el carrito de bloques usa el diseño `is-medium` (una columna). Si el botón "Finalizar compra" queda fuera de la pantalla, se oculta hasta que se baja hasta él (comportamiento sticky de WooCommerce). No es un error, pero las capturas de página completa no lo muestran.
 - **Pendiente:** el root de categorías sigue llamándose "Cases" aunque ahora incluye fundas y micas. Faltan fotos reales.
+
+
+### 2026-11-11 — P6: calidad, accesibilidad y responsive
+
+- **Método:** Playwright sobre Playground con axe-core 4.10.2 (cdnjs) en Inicio, Tienda, Ficha, Carrito con producto, Checkout y Contacto, a 375 y 1280 px. Desborde horizontal medido en 375, 768, 1280 y 1920 px. `debug.log` montado fuera del sistema virtual con `--mount-dir <carpeta> /wordpress/wp-content/logs` y `--define WP_DEBUG_LOG /wordpress/wp-content/logs/debug.log`.
+- **Contraste:** `#ff6a00` sobre crema daba 2.59:1 en los textos de sección; `--muted` daba 4.47 y `--orange-dark`, 4.17 en los precios. Nuevos valores: `--orange-dark #b84700` y `--muted #62666a`. Los textos de sección usan `--orange-dark` y conservan `--orange` sobre fondo oscuro (`.hero`, `.section-dark`). Números de las tarjetas de marca: `#9a3b00` (naranja en la tarjeta oscura). Botón de la franja CTA: tinta sobre naranja.
+- **Foco:** `input`, `select` y `textarea` reciben contorno naranja con `:focus-visible`.
+- **Rendimiento:** `case-tech-logo-mark.png` (96 px, 5 KB, generado con Chrome) en el encabezado y el pie. `case_tech_demo_image_url()` sirve el tamaño `large` del adjunto importado (si no existe, el archivo del tema). `woocommerce_gallery_full_size` = `large`.
+- **Alt:** `wp_get_attachment_image_attributes` usa el nombre del producto en la ficha cuando el adjunto no tiene alt (las fotos demo se comparten entre productos).
+- **404:** nueva plantilla `404.php` con buscador y botón a la tienda.
+- **Resultado:** axe sin violaciones del tema. Quedan `aria-prohibited-attr` en el esqueleto de carga del checkout (WooCommerce) y el botón deshabilitado de variaciones (exento). Sin desborde horizontal y sin avisos del tema o del plugin en el log. CSS 0.1.7.
+- **Siguiente paso:** P7 (producción) necesita Docker o Codespaces y decisiones del negocio. Desde esta PC aún se puede probar el carrito persistente con una cuenta de cliente.

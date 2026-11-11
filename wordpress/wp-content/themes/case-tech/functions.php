@@ -14,7 +14,7 @@ function case_tech_setup() {
 add_action( 'after_setup_theme', 'case_tech_setup' );
 
 function case_tech_assets() {
-    wp_enqueue_style( 'case-tech-style', get_stylesheet_uri(), array(), '0.1.4' );
+    wp_enqueue_style( 'case-tech-style', get_stylesheet_uri(), array(), '0.1.7' );
     wp_enqueue_script( 'case-tech-menu', get_theme_file_uri( 'assets/js/menu.js' ), array(), '0.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'case_tech_assets' );
@@ -135,4 +135,20 @@ function case_tech_brand_url( $brand ) {
 function case_tech_page_url( $slug ) {
     $page = get_page_by_path( sanitize_title( $slug ), OBJECT, 'page' );
     return $page ? get_permalink( $page ) : home_url( '/' . trim( $slug, '/' ) . '/' );
+}
+
+// Las fotos demo pesan ~3 MB a 1920 px; si el importador ya las subió, usa el tamaño "large" de la biblioteca.
+function case_tech_demo_image_url( $file, $size = 'large' ) {
+    $ids = get_posts(
+        array(
+            'post_type'      => 'attachment',
+            'post_status'    => 'inherit',
+            'posts_per_page' => 1,
+            'meta_key'       => '_case_tech_source_file',
+            'meta_value'     => $file,
+            'fields'         => 'ids',
+        )
+    );
+    $src = $ids ? wp_get_attachment_image_url( $ids[0], $size ) : '';
+    return $src ? $src : get_theme_file_uri( $file );
 }

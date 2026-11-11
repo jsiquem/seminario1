@@ -13,7 +13,7 @@
 <header class="site-header">
     <div class="container header-inner">
         <a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="Case-Tech, inicio">
-            <img class="brand-mark" src="<?php echo esc_url( get_theme_file_uri( 'case-tech-logo-concept.png' ) ); ?>" alt="">
+            <img class="brand-mark" src="<?php echo esc_url( get_theme_file_uri( 'case-tech-logo-mark.png' ) ); ?>" alt="">
             <span class="brand-word">case<span>tech</span></span>
         </a>
         <nav class="main-nav" id="primary-navigation" aria-label="Navegación principal">
