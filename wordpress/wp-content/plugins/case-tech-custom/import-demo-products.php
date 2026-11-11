@@ -1,8 +1,8 @@
 <?php
 /**
  * Importa o actualiza el catálogo demo de Case-Tech en WooCommerce.
- * Ejecutar dentro del contenedor wpcli:
- *   wp eval-file /var/www/html/tasks/import-demo-products.php
+ * Ejecutar con WP-CLI (contenedor wpcli o Playground):
+ *   wp eval-file wp-content/plugins/case-tech-custom/import-demo-products.php
  *
  * El script es idempotente: si el SKU ya existe, actualiza el producto.
  */

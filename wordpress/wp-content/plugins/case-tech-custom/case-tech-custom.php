@@ -50,14 +50,10 @@ add_filter( 'woocommerce_countries_shipping_countries', 'case_tech_only_guatemal
 function case_tech_custom_shop_page_id() {
     $shop_id = absint( get_option( 'woocommerce_shop_page_id' ) );
     if ( ! $shop_id && function_exists( 'wc_get_page_id' ) ) {
-        $shop_id = absint( wc_get_page_id( 'shop' ) );
+        $shop_id = max( 0, (int) wc_get_page_id( 'shop' ) ); // wc_get_page_id() devuelve -1 si no existe.
     }
     if ( ! $shop_id ) {
         $shop_page = get_page_by_path( 'shop', OBJECT, 'page' );
-        $shop_id   = $shop_page ? absint( $shop_page->ID ) : 0;
-    }
-    if ( ! $shop_id ) {
-        $shop_page = get_page_by_title( 'Shop', OBJECT, 'page' );
         $shop_id   = $shop_page ? absint( $shop_page->ID ) : 0;
     }
 
@@ -66,9 +62,20 @@ function case_tech_custom_shop_page_id() {
 
 function case_tech_custom_catalog_form_url() {
     $shop_id = case_tech_custom_shop_page_id();
-    return $shop_id
-        ? add_query_arg( array( 'page_id' => $shop_id ), home_url( '/' ) )
-        : home_url( '/?post_type=product' );
+    return $shop_id ? get_permalink( $shop_id ) : home_url( '/?post_type=product' );
+}
+
+/**
+ * Un formulario GET descarta la query string de su action; se reenvía como campos ocultos
+ * (p. ej. ?page_id=5 cuando los enlaces permanentes están en modo simple).
+ */
+function case_tech_custom_form_hidden_args( $url ) {
+    parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $args );
+    foreach ( $args as $key => $value ) {
+        if ( is_scalar( $value ) ) {
+            printf( '<input type="hidden" name="%s" value="%s">', esc_attr( $key ), esc_attr( $value ) );
+        }
+    }
 }
 
 function case_tech_catalog_is_archive( $query ) {
@@ -207,6 +214,7 @@ function case_tech_catalog_filters() {
             <h2 id="case-filter-title">Filtra por compatibilidad</h2>
         </div>
         <form class="case-filter-form" method="get" action="<?php echo esc_url( case_tech_custom_catalog_form_url() ); ?>">
+            <?php case_tech_custom_form_hidden_args( case_tech_custom_catalog_form_url() ); ?>
             <label>
                 <span>Marca</span>
                 <select name="case_brand">
@@ -263,6 +271,8 @@ function case_tech_catalog_filters() {
     <?php
 }
 add_action( 'woocommerce_before_shop_loop', 'case_tech_catalog_filters', 8 );
+// Sin resultados no se dispara before_shop_loop: mostrar filtros para poder corregir la búsqueda.
+add_action( 'woocommerce_no_products_found', 'case_tech_catalog_filters', 5 );
 
 function case_tech_product_model_label( $product ) {
     if ( ! $product instanceof WC_Product ) {

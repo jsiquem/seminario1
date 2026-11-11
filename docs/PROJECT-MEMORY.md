@@ -289,3 +289,26 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Cambio:** se creó `.devcontainer/devcontainer.json` con Docker-in-Docker, extensiones de Docker/PHP/YAML y reenvío de puertos 8080 y 8025.
 - **Decisión:** mantener `.env.example` versionado y exigir que cada entorno cree su propio `.env` local.
 - **Validación:** el JSON de Codespaces fue parseado correctamente y la guía quedó enlazada desde `README.md`.
+
+
+### 2026-11-11 — Nueva PC sin Docker y plan unificado
+
+- **Cambio:** se reescribió `docs/PLAN-PROFESIONAL.md` como plan único, con Prioridad 0 (entorno con WordPress Playground) y Prioridad 0.5 (limpieza técnica). `tasks/plan.md` quedó marcado como histórico.
+- **Motivo:** la PC actual (Windows 10, 8 GB de RAM, unos 700 MB libres) no puede usar Docker y no tiene PHP; sí tiene Node 24. Playground ejecuta WordPress con PHP en WebAssembly y SQLite sin instalar nada.
+- **Hallazgo:** `C:\Users\CONTABILIDAD\Pictures` es de solo lectura para el usuario (solo los administradores escriben). El proyecto se copió a `C:\Users\CONTABILIDAD\Documents\ecomerce\seminario1`, que es la ubicación de trabajo en esta PC.
+- **Hallazgos técnicos:** importador duplicado y distinto en `tasks/`; dos funciones duplicadas para la página Shop (tema y plugin); páginas sobrantes en borrador; falta el filtro por tipo de producto y un producto variable exigidos en `SPEC.md`.
+- **Alertas/faltantes:** la base de datos de la tienda original está en el volumen Docker de la otra PC; en esta PC se reconstruye con los importadores idempotentes.
+- **Siguiente paso:** crear `playground/blueprint.json` y `npm run dev`, levantar la tienda y validar las prioridades 1 a 3 en el navegador.
+
+
+### 2026-11-11 — Prioridad 0: entorno Playground operativo
+
+- **Cambio:** se crearon `playground/blueprint.json` y `package.json` (`npm run dev`), se documentó la sección "Windows sin Docker" en `INSTALL.md` y se añadió `node_modules/` a `.gitignore`.
+- **Prueba realizada:** al arrancar se instaló WooCommerce en español, se activaron el tema y el plugin y corrieron los 3 importadores. La API pública `wc/store/v1/products` devuelve 12 productos con SKU, precio GTQ, categoría de marca, atributo `Modelo compatible`, imagen y stock. Hay 4 páginas institucionales. Inicio, Shop, ficha, carrito y Contacto responden 200 sin errores PHP visibles.
+- **Hallazgo y corrección (filtros):** el formulario usaba `action="/?page_id=5"` con `method="get"`. Los navegadores descartan esa query string, así que la URL quedaba en `/?case_brand=…` y cargaba la portada. Ahora la acción es el permalink de Shop y cualquier query se reenvía como campos ocultos (`case_tech_custom_form_hidden_args()`).
+- **Corrección:** los filtros también se muestran cuando no hay resultados (`woocommerce_no_products_found`).
+- **Corrección:** `absint( wc_get_page_id() )` convertía -1 en 1 y apuntaba a la entrada con ID 1. Se cambió a `max( 0, … )`. Se eliminó `get_page_by_title()`, que está obsoleta.
+- **Limpieza:** el tema delega en `case_tech_custom_shop_page_id()` del plugin; se eliminó la función sin uso `case_tech_catalog_form_url()` del tema y la copia duplicada `tasks/import-demo-products.php`.
+- **Validación de filtros:** Samsung + Galaxy A15 devuelve 1 producto; Apple devuelve iPhone 11, 13 y 15; Apple + Galaxy A15 devuelve 0 con los filtros visibles.
+- **Alertas/faltantes:** los productos relacionados mezclan marcas (P2). Falta borrar a mano las páginas sobrantes en la instalación Docker. En Docker hay que volver a guardar Ajustes → Enlaces permanentes para que `/shop/` funcione.
+- **Siguiente paso:** revisión visual con capturas (P1 a P3) y productos relacionados por marca.

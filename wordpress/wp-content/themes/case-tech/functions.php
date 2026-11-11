@@ -16,21 +16,12 @@ function case_tech_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'case_tech_assets' );
 
+// La lógica vive en el plugin case-tech-custom; el tema solo tiene un respaldo mínimo.
 function case_tech_shop_page_id() {
-    $shop_id = absint( get_option( 'woocommerce_shop_page_id' ) );
-    if ( ! $shop_id && function_exists( 'wc_get_page_id' ) ) {
-        $shop_id = absint( wc_get_page_id( 'shop' ) );
+    if ( function_exists( 'case_tech_custom_shop_page_id' ) ) {
+        return case_tech_custom_shop_page_id();
     }
-    if ( ! $shop_id ) {
-        $shop_page = get_page_by_path( 'shop', OBJECT, 'page' );
-        $shop_id   = $shop_page ? absint( $shop_page->ID ) : 0;
-    }
-    if ( ! $shop_id ) {
-        $shop_page = get_page_by_title( 'Shop', OBJECT, 'page' );
-        $shop_id   = $shop_page ? absint( $shop_page->ID ) : 0;
-    }
-
-    return $shop_id;
+    return function_exists( 'wc_get_page_id' ) ? max( 0, (int) wc_get_page_id( 'shop' ) ) : 0;
 }
 
 function case_tech_shop_url() {
@@ -55,21 +46,6 @@ function case_tech_shop_url() {
     return home_url( '/shop/' );
 }
 
-function case_tech_catalog_form_url() {
-    $shop_id = case_tech_shop_page_id();
-
-    if ( $shop_id ) {
-        return add_query_arg(
-            array( 'page_id' => $shop_id ),
-            remove_query_arg( array( 'case_brand', 'case_model', 'case_stock' ), home_url( '/' ) )
-        );
-    }
-
-    return remove_query_arg(
-        array( 'case_brand', 'case_model', 'case_stock' ),
-        case_tech_shop_url()
-    );
-}
 function case_tech_cart_url() {
     return function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' );
 }

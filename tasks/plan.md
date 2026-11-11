@@ -1,4 +1,6 @@
-# Plan de trabajo propuesto
+# Plan de trabajo propuesto (HISTÓRICO)
+
+> **Reemplazado por [`docs/PLAN-PROFESIONAL.md`](../docs/PLAN-PROFESIONAL.md) el 2026-11-11.** Se conserva solo como referencia; no actualizar.
 
 > Este plan queda sujeto a la revisión de `docs/SPEC.md`. No se debe avanzar a cambios importantes de código hasta aprobar la especificación y resolver las preguntas abiertas prioritarias.
 
