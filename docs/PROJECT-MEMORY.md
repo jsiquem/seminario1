@@ -281,3 +281,11 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Corrección:** `case-tech-custom.php` ahora resuelve internamente el ID de Shop y construye `?page_id=ID`; también reconoce esa página en `pre_get_posts`.
 - **Mejora de UX:** el selector de modelos incluye asociación por marca y JavaScript para ocultar modelos incompatibles inmediatamente al cambiar Apple, Samsung, Huawei o Xiaomi.
 - **Validación pendiente:** reiniciar el contenedor de WordPress, recargar sin caché y probar Apple/iPhone 11 y Samsung/Galaxy A15.
+
+
+### 2026-11-11 — Instalación reproducible y GitHub Codespaces
+
+- **Cambio:** se creó `docs/INSTALL.md` con instrucciones para Windows, Linux y GitHub Codespaces.
+- **Cambio:** se creó `.devcontainer/devcontainer.json` con Docker-in-Docker, extensiones de Docker/PHP/YAML y reenvío de puertos 8080 y 8025.
+- **Decisión:** mantener `.env.example` versionado y exigir que cada entorno cree su propio `.env` local.
+- **Validación:** el JSON de Codespaces fue parseado correctamente y la guía quedó enlazada desde `README.md`.

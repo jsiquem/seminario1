@@ -1,0 +1,35 @@
+{
+  "name": "Case-Tech WooCommerce",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    }
+  },
+  "runArgs": ["--privileged"],
+  "forwardPorts": [8080, 8025],
+  "portsAttributes": {
+    "8080": {
+      "label": "Case-Tech WordPress",
+      "onAutoForward": "openBrowser"
+    },
+    "8025": {
+      "label": "Mailpit"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "bmewburn.vscode-intelephense-client",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "files.eol": "\n",
+        "editor.formatOnSave": false
+      }
+    }
+  },
+  "remoteUser": "vscode"
+}

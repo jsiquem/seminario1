@@ -1,5 +1,7 @@
 # CASE & TECH — entorno local de WooCommerce
 
+Para instalar el proyecto en otra PC o ejecutarlo en GitHub Codespaces, consulta [docs/INSTALL.md](docs/INSTALL.md).
+
 ## Requisitos
 - Docker Engine + Docker Compose v2 (o Docker Desktop)
 - Git, 4-8 GB de RAM disponible (recomendado)
