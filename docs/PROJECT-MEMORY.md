@@ -413,3 +413,10 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Créditos:** `themes/case-tech/CREDITOS-IMAGENES.md` y la leyenda de cada adjunto (la muestra el lightbox), necesaria por la licencia CC BY-SA.
 - **Estilo:** pestañas y tabla de especificaciones con los colores del tema (CSS 0.1.8). Sin desborde a 375 px.
 - **Búsqueda:** Pexels casi no tiene fundas tipo libro; sus "wallets" de cuero son billeteras, no fundas, y se descartaron. Wikimedia Commons (categoría "Smartphone flip covers") sí tiene, con licencia CC BY-SA.
+
+### 2026-11-11 — Imagen propia por modelo en fundas y micas
+
+- **Pedido del usuario:** la mica del iPhone usaba la misma foto que la de un Android; cada producto debe verse de su modelo.
+- **Solución:** no hay fotos libres de cada modelo con su mica o funda, así que la foto principal es un render SVG por modelo (`tools/render-modelos.js`), con las proporciones reales y el recorte de pantalla de cada teléfono: Dynamic Island (iPhone 15), muesca (iPhone 13), gota (Galaxy A15, P30 lite), perforación a la izquierda (nova 11i) y perforación centrada (Galaxy A55, POCO X6, Redmi Note 13). Micas: teléfono y vidrio a la par. Fundas: funda abierta con tarjetero y el teléfono dentro. Llevan el nombre del modelo y "imagen ilustrativa".
+- **Galería:** las fotos reales quedan como imágenes 2 y 3 por tipo (`$type_gallery` acepta varias): funda abierta y funda con correa (Wikimedia); mica en mano y limpieza de pantalla (Pexels). Se quitaron `demo-funda.jpg` y `demo-mica-2.jpg`.
+- **Pendiente:** los cases de modelos nuevos (iPhone 12 y 14, Galaxy A25 y S23, nova 12i y Y70, Redmi 12 y Note 12) aún reutilizan el render del modelo más parecido; la cámara de algunos (p. ej. nova Y70) no coincide.

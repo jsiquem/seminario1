@@ -40,14 +40,15 @@ $catalog = array(
     array( 'brand' => 'Xiaomi',  'model' => 'Redmi Note 12', 'slug' => 'redmi-note-12',  'sku' => 'CASE-XIAOMI-NOTE12',   'price' => '129.00', 'image' => 'demo-xiaomi-redmi-note-13-case.jpg' ),
 
     // Fundas y micas para modelos que ya tienen case: activan el filtro por tipo y las ventas cruzadas.
-    array( 'type' => 'Funda', 'brand' => 'Apple',   'model' => 'iPhone 13',     'slug' => 'iphone-13',       'sku' => 'FUNDA-APPLE-13',       'price' => '169.00', 'image' => 'demo-funda-correa.jpg' ),
-    array( 'type' => 'Mica',  'brand' => 'Apple',   'model' => 'iPhone 15',     'slug' => 'iphone-15',       'sku' => 'MICA-APPLE-15',        'price' => '69.00',  'image' => 'demo-mica.jpg' ),
-    array( 'type' => 'Funda', 'brand' => 'Samsung', 'model' => 'Galaxy A55',    'slug' => 'galaxy-a55',      'sku' => 'FUNDA-SAMSUNG-A55',    'price' => '159.00', 'image' => 'demo-funda.jpg' ),
-    array( 'type' => 'Mica',  'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',      'sku' => 'MICA-SAMSUNG-A15',     'price' => '59.00',  'image' => 'demo-mica-2.jpg' ),
-    array( 'type' => 'Funda', 'brand' => 'Huawei',  'model' => 'P30 lite',      'slug' => 'huawei-p30-lite', 'sku' => 'FUNDA-HUAWEI-P30LITE', 'price' => '149.00', 'image' => 'demo-funda-correa.jpg' ),
-    array( 'type' => 'Mica',  'brand' => 'Huawei',  'model' => 'nova 11i',      'slug' => 'huawei-nova-11i', 'sku' => 'MICA-HUAWEI-NOVA11I',  'price' => '59.00',  'image' => 'demo-mica.jpg' ),
-    array( 'type' => 'Funda', 'brand' => 'Xiaomi',  'model' => 'Redmi Note 13', 'slug' => 'redmi-note-13',   'sku' => 'FUNDA-XIAOMI-NOTE13',  'price' => '149.00', 'image' => 'demo-funda.jpg' ),
-    array( 'type' => 'Mica',  'brand' => 'Xiaomi',  'model' => 'POCO X6',       'slug' => 'poco-x6',         'sku' => 'MICA-XIAOMI-POCOX6',   'price' => '69.00',  'image' => 'demo-mica-2.jpg' ),
+    // Su foto principal es un render del modelo (recorte de pantalla real); la galería suma fotos reales del tipo.
+    array( 'type' => 'Funda', 'brand' => 'Apple',   'model' => 'iPhone 13',     'slug' => 'iphone-13',       'sku' => 'FUNDA-APPLE-13',       'price' => '169.00', 'image' => 'demo-funda-iphone-13.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Apple',   'model' => 'iPhone 15',     'slug' => 'iphone-15',       'sku' => 'MICA-APPLE-15',        'price' => '69.00',  'image' => 'demo-mica-iphone-15.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Samsung', 'model' => 'Galaxy A55',    'slug' => 'galaxy-a55',      'sku' => 'FUNDA-SAMSUNG-A55',    'price' => '159.00', 'image' => 'demo-funda-galaxy-a55.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',      'sku' => 'MICA-SAMSUNG-A15',     'price' => '59.00',  'image' => 'demo-mica-galaxy-a15.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Huawei',  'model' => 'P30 lite',      'slug' => 'huawei-p30-lite', 'sku' => 'FUNDA-HUAWEI-P30LITE', 'price' => '149.00', 'image' => 'demo-funda-p30-lite.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Huawei',  'model' => 'nova 11i',      'slug' => 'huawei-nova-11i', 'sku' => 'MICA-HUAWEI-NOVA11I',  'price' => '59.00',  'image' => 'demo-mica-nova-11i.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Xiaomi',  'model' => 'Redmi Note 13', 'slug' => 'redmi-note-13',   'sku' => 'FUNDA-XIAOMI-NOTE13',  'price' => '149.00', 'image' => 'demo-funda-redmi-note-13.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Xiaomi',  'model' => 'POCO X6',       'slug' => 'poco-x6',         'sku' => 'MICA-XIAOMI-POCOX6',   'price' => '69.00',  'image' => 'demo-mica-poco-x6.jpg' ),
 );
 
 // Textos por tipo: %1$s = marca, %2$s = modelo.
@@ -108,10 +109,10 @@ $image_colors = array(
     'demo-xiaomi-poco-x6-case.jpg'       => 'Negro con detalles naranja',
 );
 
-// Segunda foto de la galería por tipo; sin entrada, se usa un acercamiento de la foto principal.
+// Fotos reales de galería por tipo; sin entrada, se usa un acercamiento de la foto principal.
 $type_gallery = array(
-    'Funda' => 'demo-funda-abierta.jpg',
-    'Mica'  => 'demo-mica-limpieza.jpg',
+    'Funda' => array( 'demo-funda-abierta.jpg', 'demo-funda-correa.jpg' ),
+    'Mica'  => array( 'demo-mica.jpg', 'demo-mica-limpieza.jpg' ),
 );
 
 $base_dir = WP_CONTENT_DIR . '/themes/case-tech/';
@@ -366,14 +367,17 @@ foreach ( $catalog as $item ) {
         if ( $attachment_id ) {
             $product->set_image_id( $attachment_id );
         }
-        if ( isset( $type_gallery[ $type ] ) && file_exists( $base_dir . $type_gallery[ $type ] ) ) {
-            $detail_id = case_tech_demo_attachment( $base_dir . $type_gallery[ $type ], $type_gallery[ $type ], 'Galería demo: ' . $type );
+        $gallery_ids = array();
+        if ( isset( $type_gallery[ $type ] ) ) {
+            foreach ( $type_gallery[ $type ] as $gallery_file ) {
+                if ( file_exists( $base_dir . $gallery_file ) ) {
+                    $gallery_ids[] = case_tech_demo_attachment( $base_dir . $gallery_file, $gallery_file, 'Galería demo: ' . $type );
+                }
+            }
         } else {
-            $detail_id = case_tech_demo_attachment( $image_path, 'detalle-' . $item['image'], 'Detalle demo: ' . $item['model'], true );
+            $gallery_ids[] = case_tech_demo_attachment( $image_path, 'detalle-' . $item['image'], 'Detalle demo: ' . $item['model'], true );
         }
-        if ( $detail_id ) {
-            $product->set_gallery_image_ids( array( $detail_id ) );
-        }
+        $product->set_gallery_image_ids( array_filter( $gallery_ids ) );
     } else {
         WP_CLI::warning( 'No se encontró la imagen: ' . $image_path );
     }
@@ -422,11 +426,9 @@ foreach ( $ids_by_model as $model_ids ) {
 
 // Créditos de fotos externas (ver themes/case-tech/CREDITOS-IMAGENES.md): van en la leyenda, que muestra el lightbox.
 $image_credits = array(
-    'demo-funda.jpg'         => 'Foto: Budget Bizar (Pexels)',
     'demo-funda-correa.jpg'  => 'Foto: Santeri Viinamäki, CC BY-SA 4.0 (Wikimedia Commons)',
     'demo-funda-abierta.jpg' => 'Foto: Acabashi, CC BY-SA 4.0 (Wikimedia Commons)',
     'demo-mica.jpg'          => 'Foto: Rann Vijay (Pexels)',
-    'demo-mica-2.jpg'        => 'Foto: Rann Vijay (Pexels)',
     'demo-mica-limpieza.jpg' => 'Foto: Towfiqu barbhuiya (Pexels)',
 );
 foreach ( $image_credits as $source_key => $credit ) {
