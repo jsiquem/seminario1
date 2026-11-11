@@ -62,6 +62,33 @@ if ( ! taxonomy_exists( $attribute_taxonomy ) ) {
     }
 }
 
+$type_taxonomy = 'pa_tipo-producto';
+if ( ! taxonomy_exists( $type_taxonomy ) ) {
+    $type_attribute_id = wc_create_attribute( array(
+        'name'         => 'Tipo de producto',
+        'slug'         => 'tipo-producto',
+        'type'         => 'select',
+        'order_by'     => 'menu_order',
+        'has_archives' => false,
+    ) );
+    if ( is_wp_error( $type_attribute_id ) ) {
+        WP_CLI::warning( 'No se pudo crear el atributo Tipo de producto: ' . $type_attribute_id->get_error_message() );
+    } else {
+        register_taxonomy( $type_taxonomy, array( 'product' ), array( 'hierarchical' => false, 'label' => 'Tipo de producto' ) );
+    }
+}
+
+$type_term_id = 0;
+if ( taxonomy_exists( $type_taxonomy ) ) {
+    $type_term = term_exists( 'Case', $type_taxonomy );
+    if ( ! $type_term ) {
+        $type_term = wp_insert_term( 'Case', $type_taxonomy, array( 'slug' => 'case' ) );
+    }
+    if ( ! is_wp_error( $type_term ) && $type_term ) {
+        $type_term_id = (int) ( is_array( $type_term ) ? $type_term['term_id'] : $type_term );
+    }
+}
+
 $model_terms = array();
 if ( taxonomy_exists( $attribute_taxonomy ) ) {
     foreach ( $catalog as $item ) {
@@ -107,6 +134,7 @@ foreach ( $catalog as $item ) {
     $product->set_stock_quantity( 10 );
     $product->set_stock_status( 'instock' );
     $product->set_category_ids( array( $cases_term_id, $brand_terms[ $item['brand'] ] ) );
+    $product_attributes = array();
     if ( ! empty( $model_terms[ $item['model'] ] ) ) {
         $model_attribute = new WC_Product_Attribute();
         $model_attribute->set_id( wc_attribute_taxonomy_id_by_name( $attribute_taxonomy ) );
@@ -115,7 +143,20 @@ foreach ( $catalog as $item ) {
         $model_attribute->set_position( 0 );
         $model_attribute->set_visible( true );
         $model_attribute->set_variation( false );
-        $product->set_attributes( array( $model_attribute ) );
+        $product_attributes[] = $model_attribute;
+    }
+    if ( $type_term_id ) {
+        $type_attribute = new WC_Product_Attribute();
+        $type_attribute->set_id( wc_attribute_taxonomy_id_by_name( $type_taxonomy ) );
+        $type_attribute->set_name( $type_taxonomy );
+        $type_attribute->set_options( array( $type_term_id ) );
+        $type_attribute->set_position( 1 );
+        $type_attribute->set_visible( true );
+        $type_attribute->set_variation( false );
+        $product_attributes[] = $type_attribute;
+    }
+    if ( $product_attributes ) {
+        $product->set_attributes( $product_attributes );
     }
 
     $image_path = $base_dir . $item['image'];

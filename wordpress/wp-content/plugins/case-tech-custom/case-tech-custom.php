@@ -114,6 +114,14 @@ function case_tech_catalog_filter_query( $query ) {
         );
     }
 
+    if ( ! empty( $_GET['case_type'] ) && taxonomy_exists( 'pa_tipo-producto' ) ) {
+        $tax_query[] = array(
+            'taxonomy' => 'pa_tipo-producto',
+            'field'    => 'slug',
+            'terms'    => sanitize_title( wp_unslash( $_GET['case_type'] ) ),
+        );
+    }
+
     if ( ! empty( $_GET['case_stock'] ) && 'available' === sanitize_key( wp_unslash( $_GET['case_stock'] ) ) ) {
         $meta_query = (array) $query->get( 'meta_query' );
         $meta_query[] = array(
@@ -149,9 +157,20 @@ function case_tech_catalog_filters() {
         )
     );
     $models = array();
+    $product_types = taxonomy_exists( 'pa_tipo-producto' )
+        ? get_terms(
+            array(
+                'taxonomy'   => 'pa_tipo-producto',
+                'hide_empty' => true,
+            )
+        )
+        : array();
 
     if ( is_wp_error( $brands ) ) {
         $brands = array();
+    }
+    if ( is_wp_error( $product_types ) ) {
+        $product_types = array();
     }
     if ( is_wp_error( $models ) ) {
         $models = array();
@@ -159,6 +178,7 @@ function case_tech_catalog_filters() {
 
     $current_brand = isset( $_GET['case_brand'] ) ? sanitize_title( wp_unslash( $_GET['case_brand'] ) ) : '';
     $current_model = isset( $_GET['case_model'] ) ? sanitize_title( wp_unslash( $_GET['case_model'] ) ) : '';
+    $current_type  = isset( $_GET['case_type'] ) ? sanitize_title( wp_unslash( $_GET['case_type'] ) ) : '';
     $current_stock = isset( $_GET['case_stock'] ) ? sanitize_key( wp_unslash( $_GET['case_stock'] ) ) : '';
 
     if ( is_product_category() ) {
@@ -234,6 +254,15 @@ function case_tech_catalog_filters() {
                 </select>
             </label>
             <label>
+                <span>Tipo de producto</span>
+                <select name="case_type">
+                    <option value="">Todos los tipos</option>
+                    <?php foreach ( $product_types as $product_type ) : ?>
+                        <option value="<?php echo esc_attr( $product_type->slug ); ?>" <?php selected( $current_type, $product_type->slug ); ?>><?php echo esc_html( $product_type->name ); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <label>
                 <span>Disponibilidad</span>
                 <select name="case_stock">
                     <option value="">Todos</option>
@@ -241,7 +270,7 @@ function case_tech_catalog_filters() {
                 </select>
             </label>
             <button class="button button-primary" type="submit">Aplicar filtros</button>
-            <?php if ( $current_brand || $current_model || $current_stock ) : ?>
+            <?php if ( $current_brand || $current_model || $current_type || $current_stock ) : ?>
                 <a class="case-filter-reset" href="<?php echo esc_url( case_tech_custom_catalog_form_url() ); ?>">Limpiar</a>
             <?php endif; ?>
         </form>

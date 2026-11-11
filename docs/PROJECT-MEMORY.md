@@ -325,3 +325,12 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Corrección:** en móvil, los títulos de tarjeta son más pequeños y "Añadir al carrito" cabe en una línea. `npm run dev` fija el puerto 9400.
 - **Alertas/faltantes:** en las capturas de página completa algunas imágenes salen vacías por la carga diferida, aunque las 12 miniaturas responden 200. La imagen del bloque "Se ve bien" no se pudo confirmar visualmente por el mismo motivo.
 - **Siguiente paso:** galería de imágenes y producto variable (P2), filtro por tipo de producto (P1) y flujo completo de pedido (P4).
+
+
+### 2026-11-11 — P1: filtro por tipo de producto
+
+- **Cambio:** el importador crea el atributo global `Tipo de producto` (`pa_tipo-producto`) con el término "Case" y lo asigna a los 12 productos demo junto con `Modelo compatible`. El plugin añade el selector "Tipo de producto" (`case_type`) y su `tax_query`.
+- **Corrección:** el `is_wp_error()` de los tipos se evaluaba antes del `get_terms()`; ahora se evalúa después.
+- **Validación (Playground, instalación limpia):** sin filtros devuelve 12; `case_type=case` devuelve 12; con Apple, 3; con Samsung + Galaxy A15, 1; un tipo inexistente devuelve 0 y mantiene los filtros visibles. No hubo errores fatales.
+- **Nota:** la Tienda responde en `/shop/` (solo se tradujo el título, no el slug); `/tienda/` da 404.
+- **Siguiente paso:** galería de imágenes y producto variable (P2) y flujo completo de pedido (P4).

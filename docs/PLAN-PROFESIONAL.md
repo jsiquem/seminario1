@@ -64,7 +64,7 @@ Levantar el proyecto en esta PC (Windows 10, 8 GB de RAM, sin Docker ni PHP, con
 
 ## Prioridad 1 — Catálogo y compatibilidad
 
-**Estado: Validada en Playground el 2026-11-11, salvo el filtro por tipo de producto.**
+**Estado: Validada en Playground el 2026-11-11.**
 
 El comprador debe poder encontrar productos por marca, modelo compatible y disponibilidad sin ver resultados que no le sirven.
 
@@ -79,7 +79,7 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 - [x] Enlaces de la portada conectados a categorías reales.
 - [x] Aviso de compatibilidad en la página de catálogo.
 - [x] Formulario de filtros dirigido al archivo real de la tienda, no a la portada.
-- [ ] Filtro por tipo de producto (case, funda o mica), exigido en `SPEC.md` y no implementado.
+- [x] Filtro por tipo de producto (`pa_tipo-producto`; los 12 demo son "Case"). Funda y mica se añaden al cargar esos productos.
 - [x] Mensaje de "sin resultados" con un botón para limpiar los filtros.
 - [x] Prueba: `Inicio → Samsung → Galaxy A15` debe mostrar solo el modelo correspondiente.
 
