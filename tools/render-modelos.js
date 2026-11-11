@@ -4,16 +4,16 @@
 // como themes/case-tech/demo-<tipo>-<modelo>.jpg. Para un modelo nuevo, añádelo a MODELS y JOBS.
 async (page) => {
 
-// Medidas reales aproximadas (mm) y tipo de recorte de pantalla de cada modelo.
+// Medidas reales (mm, fichas del fabricante/Wikipedia) y tipo de recorte de pantalla de cada modelo.
 const MODELS = {
   'iphone-15':     { name: 'iPhone 15',     w: 71.6, h: 147.6, r: 0.17, bezel: 0.035, chin: 0.035, cut: 'island', home: true },
   'iphone-13':     { name: 'iPhone 13',     w: 71.5, h: 146.7, r: 0.17, bezel: 0.035, chin: 0.035, cut: 'notch',  home: true },
   'galaxy-a15':    { name: 'Galaxy A15',    w: 76.8, h: 160.1, r: 0.11, bezel: 0.03,  chin: 0.075, cut: 'drop' },
   'galaxy-a55':    { name: 'Galaxy A55',    w: 77.4, h: 161.1, r: 0.12, bezel: 0.03,  chin: 0.045, cut: 'hole' },
-  'nova-11i':      { name: 'nova 11i',      w: 75.8, h: 164.5, r: 0.12, bezel: 0.028, chin: 0.05,  cut: 'hole-left' },
+  'nova-11i':      { name: 'nova 11i',      w: 75.55, h: 164.6, r: 0.12, bezel: 0.028, chin: 0.05,  cut: 'hole' },
   'p30-lite':      { name: 'P30 lite',      w: 72.7, h: 152.9, r: 0.11, bezel: 0.03,  chin: 0.075, cut: 'drop' },
-  'poco-x6':       { name: 'POCO X6',       w: 74.3, h: 161.2, r: 0.12, bezel: 0.026, chin: 0.04,  cut: 'hole' },
-  'redmi-note-13': { name: 'Redmi Note 13', w: 75.6, h: 162.2, r: 0.12, bezel: 0.028, chin: 0.045, cut: 'hole' },
+  'poco-x6':       { name: 'POCO X6',       w: 74.24, h: 161.15, r: 0.12, bezel: 0.026, chin: 0.04,  cut: 'hole' },
+  'redmi-note-13': { name: 'Redmi Note 13', w: 75.6, h: 162.3, r: 0.12, bezel: 0.028, chin: 0.045, cut: 'hole' },
 };
 
 function phoneFront(m, x, y, H, id) {
@@ -25,7 +25,6 @@ function phoneFront(m, x, y, H, id) {
   if (m.cut === 'notch') { const nw = sw * 0.42, nh = sw * 0.085, k = nh * 0.6; cut = `<path d="M${cx - nw / 2 - k} ${sy} q${k} 0 ${k} ${k * 0.8} v${nh - k * 1.4} q0 ${k * 0.6} ${k * 0.8} ${k * 0.6} h${nw - 1.6 * k} q${k * 0.8} 0 ${k * 0.8} ${-k * 0.6} v${-(nh - k * 1.4)} q0 ${-k * 0.8} ${k} ${-k * 0.8} z" fill="#050505"/>`; }
   if (m.cut === 'drop') { const dw = sw * 0.12, dh = sw * 0.065; cut = `<path d="M${cx - dw} ${sy} q${dw * 0.45} 0 ${dw * 0.55} ${dh * 0.5} a${dw * 0.45} ${dh * 0.55} 0 0 0 ${dw * 0.9} 0 q${dw * 0.1} ${-dh * 0.5} ${dw * 0.55} ${-dh * 0.5} z" fill="#050505"/>`; }
   if (m.cut === 'hole') cut = `<circle cx="${cx}" cy="${sy + sw * 0.055}" r="${sw * 0.03}" fill="#050505"/>`;
-  if (m.cut === 'hole-left') cut = `<circle cx="${sx + sw * 0.085}" cy="${sy + sw * 0.065}" r="${sw * 0.032}" fill="#050505"/>`;
   const home = m.home ? `<rect x="${cx - sw * 0.17}" y="${sy + sh - sw * 0.035}" width="${sw * 0.34}" height="${sw * 0.012}" rx="${sw * 0.006}" fill="rgba(255,255,255,.75)"/>` : '';
   return `
   <defs>

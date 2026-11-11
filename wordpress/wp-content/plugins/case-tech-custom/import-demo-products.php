@@ -109,6 +109,59 @@ $image_colors = array(
     'demo-xiaomi-poco-x6-case.jpg'       => 'Negro con detalles naranja',
 );
 
+// Datos reales del teléfono: pantalla, medidas (alto × ancho × grosor) y año de lanzamiento.
+// Fuente: fichas del fabricante y Wikipedia, consultadas en nov. 2026 (ver docs/PROJECT-MEMORY.md).
+$phone_specs = array(
+    'iPhone 11'     => array( '6.1" LCD', '150.9 × 75.7 × 8.3 mm', '2019' ),
+    'iPhone 12'     => array( '6.1" OLED', '146.7 × 71.5 × 7.4 mm', '2020' ),
+    'iPhone 13'     => array( '6.1" OLED', '146.7 × 71.5 × 7.65 mm', '2021' ),
+    'iPhone 14'     => array( '6.1" OLED', '146.7 × 71.5 × 7.8 mm', '2022' ),
+    'iPhone 15'     => array( '6.1" OLED', '147.6 × 71.6 × 7.8 mm', '2023' ),
+    'Galaxy A15'    => array( '6.5" Super AMOLED', '160.1 × 76.8 × 8.4 mm', '2023' ),
+    'Galaxy A25'    => array( '6.5" Super AMOLED', '161.0 × 76.5 × 8.3 mm', '2023' ),
+    'Galaxy A55'    => array( '6.6" Super AMOLED', '161.1 × 77.4 × 8.2 mm', '2024' ),
+    'Galaxy S23'    => array( '6.1" Dynamic AMOLED 2X', '146.3 × 70.9 × 7.6 mm', '2023' ),
+    'Galaxy S24'    => array( '6.2" Dynamic AMOLED 2X', '147.0 × 70.6 × 7.6 mm', '2024' ),
+    'Y9a'           => array( '6.63" LCD', '163.5 × 76.5 × 8.95 mm', '2020' ),
+    'nova 11i'      => array( '6.8" LCD', '164.6 × 75.55 × 8.55 mm', '2023' ),
+    'nova 12i'      => array( '6.7" LCD', '163.3 × 74.7 × 8.4 mm', '2024' ),
+    'nova Y70'      => array( '6.75" LCD', '168.3 × 77.7 × 8.98 mm', '2022' ),
+    'P30 lite'      => array( '6.15" LCD', '152.9 × 72.7 × 7.4 mm', '2019' ),
+    'Redmi 13C'     => array( '6.74" LCD', '168 × 78 × 8.09 mm', '2023' ),
+    'Redmi Note 13' => array( '6.67" AMOLED', '162.3 × 75.6 × 8.0 mm', '2024' ),
+    'POCO X6'       => array( '6.67" AMOLED', '161.15 × 74.24 × 7.98 mm', '2024' ),
+    'Redmi 12'      => array( '6.79" LCD', '168.6 × 76.3 × 8.2 mm', '2023' ),
+    'Redmi Note 12' => array( '6.67" AMOLED', '165.7 × 76 × 7.9 mm', '2023' ),
+);
+
+// Versión exacta cuando existe otra con distinto tamaño o cámaras (no comparten accesorios).
+$phone_versions = array(
+    'Galaxy A15'    => 'Galaxy A15 4G (SM-A155F)',
+    'Galaxy A25'    => 'Galaxy A25 5G (única versión)',
+    'Redmi 13C'     => 'Redmi 13C 4G (no apto para 13C 5G)',
+    'Redmi Note 13' => 'Redmi Note 13 4G (no apto para la versión 5G)',
+    'POCO X6'       => 'POCO X6 5G (no apto para X6 Pro)',
+    'Redmi 12'      => 'Redmi 12 4G (no apto para Redmi 12 5G)',
+    'Redmi Note 12' => 'Redmi Note 12 4G (no apto para la versión 5G)',
+);
+
+// Foto real del teléfono (Wikimedia Commons) que se añade a la galería de todos sus productos.
+$phone_photos = array(
+    'iPhone 11'     => 'telefono-iphone-11.jpg',
+    'iPhone 12'     => 'telefono-iphone-12.jpg',
+    'iPhone 13'     => 'telefono-iphone-13.jpg',
+    'iPhone 14'     => 'telefono-iphone-14.jpg',
+    'iPhone 15'     => 'telefono-iphone-15.jpg',
+    'Galaxy A15'    => 'telefono-galaxy-a15.jpg',
+    'Galaxy A25'    => 'telefono-galaxy-a25.jpg',
+    'Galaxy A55'    => 'telefono-galaxy-a55.jpg',
+    'Galaxy S23'    => 'telefono-galaxy-s23.jpg',
+    'nova 11i'      => 'telefono-nova-11i.jpg',
+    'P30 lite'      => 'telefono-p30-lite.jpg',
+    'Redmi 12'      => 'telefono-redmi-12.jpg',
+    'Redmi Note 12' => 'telefono-redmi-note-12.jpg',
+);
+
 // Fotos reales de galería por tipo; sin entrada, se usa un acercamiento de la foto principal.
 $type_gallery = array(
     'Funda' => array( 'demo-funda-abierta.jpg', 'demo-funda-correa.jpg' ),
@@ -339,7 +392,17 @@ foreach ( $catalog as $item ) {
         $color_attribute->set_variation( true );
         $product_attributes[] = $color_attribute;
     }
-    $specs = $type_specs[ $type ];
+    $specs = array();
+    if ( isset( $phone_versions[ $item['model'] ] ) ) {
+        $specs['Versión compatible'] = $phone_versions[ $item['model'] ];
+    }
+    if ( isset( $phone_specs[ $item['model'] ] ) ) {
+        list( $screen, $size, $year ) = $phone_specs[ $item['model'] ];
+        $specs['Pantalla del teléfono']    = $screen;
+        $specs['Medidas del teléfono']     = $size;
+        $specs['Lanzamiento del teléfono'] = $year;
+    }
+    $specs += $type_specs[ $type ];
     if ( ! $is_variable && isset( $image_colors[ $item['image'] ] ) ) {
         $specs['Color'] = $image_colors[ $item['image'] ];
     }
@@ -376,6 +439,10 @@ foreach ( $catalog as $item ) {
             }
         } else {
             $gallery_ids[] = case_tech_demo_attachment( $image_path, 'detalle-' . $item['image'], 'Detalle demo: ' . $item['model'], true );
+        }
+        $phone_photo = isset( $phone_photos[ $item['model'] ] ) ? $phone_photos[ $item['model'] ] : '';
+        if ( $phone_photo && file_exists( $base_dir . $phone_photo ) ) {
+            $gallery_ids[] = case_tech_demo_attachment( $base_dir . $phone_photo, $phone_photo, 'Teléfono compatible: ' . $item['model'] );
         }
         $product->set_gallery_image_ids( array_filter( $gallery_ids ) );
     } else {
@@ -430,6 +497,19 @@ $image_credits = array(
     'demo-funda-abierta.jpg' => 'Foto: Acabashi, CC BY-SA 4.0 (Wikimedia Commons)',
     'demo-mica.jpg'          => 'Foto: Rann Vijay (Pexels)',
     'demo-mica-limpieza.jpg' => 'Foto: Towfiqu barbhuiya (Pexels)',
+    'telefono-iphone-11.jpg'     => 'Teléfono compatible. Foto: Ahmadkurdi44, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-iphone-12.jpg'     => 'Teléfono compatible. Foto: KKPCW, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-iphone-13.jpg'     => 'Teléfono compatible. Foto: 人工知能, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-iphone-14.jpg'     => 'Teléfono compatible. Foto: Hajoon0102, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-iphone-15.jpg'     => 'Teléfono compatible. Foto: ThePhotoGraphIc, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-galaxy-a15.jpg'    => 'Teléfono compatible. Foto: PantheraLeo1359531, CC BY 4.0 (Wikimedia Commons)',
+    'telefono-galaxy-a25.jpg'    => 'Teléfono compatible. Foto: Captainmorlypogi1959, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-galaxy-a55.jpg'    => 'Teléfono compatible. Foto: Captainmorlypogi1959, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-galaxy-s23.jpg'    => 'Teléfono compatible. Foto: Hajoon0102, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-nova-11i.jpg'      => 'Teléfono compatible. Foto: Maksdroider, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-p30-lite.jpg'      => 'Teléfono compatible. Foto: EEIM, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-redmi-12.jpg'      => 'Teléfono compatible. Foto: Maksdroider, CC BY-SA 4.0 (Wikimedia Commons)',
+    'telefono-redmi-note-12.jpg' => 'Teléfono compatible. Foto: Maksdroider, CC BY-SA 4.0 (Wikimedia Commons)',
 );
 foreach ( $image_credits as $source_key => $credit ) {
     foreach ( array( $source_key, 'detalle-' . $source_key ) as $key ) {
