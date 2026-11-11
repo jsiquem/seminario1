@@ -404,3 +404,12 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Imágenes:** `demo-funda.jpg` y `demo-mica.jpg` pasaron de ilustraciones a fotos reales con licencia libre de Pexels (uso comercial, sin atribución obligatoria). Funda: "Smart Phone in Black Case", de Budget Bizar (https://www.pexels.com/photo/14979770/), una funda tipo libro sin logotipos; se dejó cuadrada estirando las filas del borde. Mica: "Hand Holding Tempered Glass", de Rann Vijay (https://www.pexels.com/photo/7742507/), recortada para quitar el teléfono "Galaxy S9+" del fondo. Créditos en `themes/case-tech/CREDITOS-IMAGENES.md`.
 - **Límite:** son fotos genéricas del tipo de producto, no del modelo exacto. Unsplash y las páginas de Pexels bloquean la descarga automática; las búsquedas se hicieron con el navegador de Playwright y las fotos se bajaron del CDN `images.pexels.com`.
 - **Pendiente:** fotos propias de cada modelo antes de vender de verdad.
+
+### 2026-11-11 — Ficha técnica por producto y más fotos
+
+- **Decisión del usuario:** de las mejoras propuestas para que los productos se vean menos genéricos, eligió ficha técnica y más variedad de fotos (no líneas con nombre propio ni etiquetas en tarjetas).
+- **Ficha técnica:** el importador añade atributos locales (`$type_specs`) que salen en la pestaña "Información adicional": material, interior, grosor y protección en cases; material, tarjetas, cierre y soporte en fundas; dureza 9H, grosor, bordes, contenido e instalación en micas. Cada case lleva su color real según el render (`$image_colors`). Son datos demo.
+- **Fotos:** fundas alternan `demo-funda.jpg` (Pexels) y `demo-funda-correa.jpg` (Wikimedia, CC BY-SA); micas alternan `demo-mica.jpg` y `demo-mica-2.jpg` (otra toma del mismo autor de Pexels, recortada sin el teléfono "Galaxy S9"). La segunda foto de galería es por tipo (`$type_gallery`): funda abierta con ranuras (Wikimedia) y limpieza de pantalla (Pexels). Los cases siguen con el acercamiento.
+- **Créditos:** `themes/case-tech/CREDITOS-IMAGENES.md` y la leyenda de cada adjunto (la muestra el lightbox), necesaria por la licencia CC BY-SA.
+- **Estilo:** pestañas y tabla de especificaciones con los colores del tema (CSS 0.1.8). Sin desborde a 375 px.
+- **Búsqueda:** Pexels casi no tiene fundas tipo libro; sus "wallets" de cuero son billeteras, no fundas, y se descartaron. Wikimedia Commons (categoría "Smartphone flip covers") sí tiene, con licencia CC BY-SA.

@@ -40,14 +40,14 @@ $catalog = array(
     array( 'brand' => 'Xiaomi',  'model' => 'Redmi Note 12', 'slug' => 'redmi-note-12',  'sku' => 'CASE-XIAOMI-NOTE12',   'price' => '129.00', 'image' => 'demo-xiaomi-redmi-note-13-case.jpg' ),
 
     // Fundas y micas para modelos que ya tienen case: activan el filtro por tipo y las ventas cruzadas.
-    array( 'type' => 'Funda', 'brand' => 'Apple',   'model' => 'iPhone 13',     'slug' => 'iphone-13',       'sku' => 'FUNDA-APPLE-13',       'price' => '169.00', 'image' => 'demo-funda.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Apple',   'model' => 'iPhone 13',     'slug' => 'iphone-13',       'sku' => 'FUNDA-APPLE-13',       'price' => '169.00', 'image' => 'demo-funda-correa.jpg' ),
     array( 'type' => 'Mica',  'brand' => 'Apple',   'model' => 'iPhone 15',     'slug' => 'iphone-15',       'sku' => 'MICA-APPLE-15',        'price' => '69.00',  'image' => 'demo-mica.jpg' ),
     array( 'type' => 'Funda', 'brand' => 'Samsung', 'model' => 'Galaxy A55',    'slug' => 'galaxy-a55',      'sku' => 'FUNDA-SAMSUNG-A55',    'price' => '159.00', 'image' => 'demo-funda.jpg' ),
-    array( 'type' => 'Mica',  'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',      'sku' => 'MICA-SAMSUNG-A15',     'price' => '59.00',  'image' => 'demo-mica.jpg' ),
-    array( 'type' => 'Funda', 'brand' => 'Huawei',  'model' => 'P30 lite',      'slug' => 'huawei-p30-lite', 'sku' => 'FUNDA-HUAWEI-P30LITE', 'price' => '149.00', 'image' => 'demo-funda.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',      'sku' => 'MICA-SAMSUNG-A15',     'price' => '59.00',  'image' => 'demo-mica-2.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Huawei',  'model' => 'P30 lite',      'slug' => 'huawei-p30-lite', 'sku' => 'FUNDA-HUAWEI-P30LITE', 'price' => '149.00', 'image' => 'demo-funda-correa.jpg' ),
     array( 'type' => 'Mica',  'brand' => 'Huawei',  'model' => 'nova 11i',      'slug' => 'huawei-nova-11i', 'sku' => 'MICA-HUAWEI-NOVA11I',  'price' => '59.00',  'image' => 'demo-mica.jpg' ),
     array( 'type' => 'Funda', 'brand' => 'Xiaomi',  'model' => 'Redmi Note 13', 'slug' => 'redmi-note-13',   'sku' => 'FUNDA-XIAOMI-NOTE13',  'price' => '149.00', 'image' => 'demo-funda.jpg' ),
-    array( 'type' => 'Mica',  'brand' => 'Xiaomi',  'model' => 'POCO X6',       'slug' => 'poco-x6',         'sku' => 'MICA-XIAOMI-POCOX6',   'price' => '69.00',  'image' => 'demo-mica.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Xiaomi',  'model' => 'POCO X6',       'slug' => 'poco-x6',         'sku' => 'MICA-XIAOMI-POCOX6',   'price' => '69.00',  'image' => 'demo-mica-2.jpg' ),
 );
 
 // Textos por tipo: %1$s = marca, %2$s = modelo.
@@ -64,6 +64,54 @@ $type_texts = array(
         '<p>Mica de vidrio templado para <strong>%1$s %2$s</strong>, cortada a la medida de la pantalla para protegerla de rayones y golpes en los bordes.</p><p>Se entrega como repuesto sin instalación: incluye toallita de limpieza y guía para colocarla en casa sin burbujas.</p><h3>Características</h3><ul><li>Compatibilidad: %1$s %2$s.</li><li>Vidrio templado de 9H con bordes redondeados.</li><li>Conserva la sensibilidad táctil y la nitidez de la pantalla.</li><li>Incluye kit de limpieza; no incluye instalación.</li></ul><p><strong>Nota:</strong> verifica el modelo exacto de tu teléfono antes de comprar. La imagen es ilustrativa y el precio y el inventario corresponden a datos demo del entorno local.</p>',
         'Mica de vidrio templado para %1$s %2$s, con kit de limpieza para colocarla en casa.',
     ),
+);
+
+// Ficha técnica por tipo: se muestra en la pestaña "Información adicional" (datos demo).
+$type_specs = array(
+    'Case'  => array(
+        'Material'        => 'TPU flexible con acabado mate',
+        'Interior'        => 'Microfibra suave',
+        'Grosor'          => '1.5 mm',
+        'Protección'      => 'Bordes elevados sobre pantalla y cámara',
+        'Botones'         => 'Cubiertos, con buena respuesta al presionar',
+    ),
+    'Funda' => array(
+        'Material'        => 'Cuero sintético (PU) con costura visible',
+        'Interior'        => 'Carcasa de TPU que sujeta el teléfono',
+        'Tarjetas'        => '3 ranuras y 1 bolsillo para billetes',
+        'Cierre'          => 'Magnético',
+        'Soporte'         => 'La tapa se dobla como soporte horizontal',
+        'Color'           => 'Negro',
+    ),
+    'Mica'  => array(
+        'Material'        => 'Vidrio templado',
+        'Dureza'          => '9H',
+        'Grosor'          => '0.33 mm',
+        'Bordes'          => '2.5D redondeados, con marco negro',
+        'Incluye'         => 'Toallita húmeda, paño seco y stickers quitapolvo',
+        'Instalación'     => 'No incluida (se coloca en casa)',
+    ),
+);
+
+// Color de cada render de case; el case variable (iPhone 15) toma el color de la variación.
+$image_colors = array(
+    'demo-iphone-11-case.jpg'            => 'Negro',
+    'demo-iphone-13-case.jpg'            => 'Naranja',
+    'demo-samsung-a15-case.jpg'          => 'Gris grafito',
+    'demo-samsung-a55-case.jpg'          => 'Azul',
+    'demo-samsung-s24-case.jpg'          => 'Gris grafito',
+    'demo-huawei-y9a-case.jpg'           => 'Verde azulado',
+    'demo-huawei-nova-11i-case.jpg'      => 'Azul marino',
+    'demo-huawei-p30-lite-case.jpg'      => 'Negro',
+    'demo-xiaomi-redmi-13c-case.jpg'     => 'Rojo',
+    'demo-xiaomi-redmi-note-13-case.jpg' => 'Verde',
+    'demo-xiaomi-poco-x6-case.jpg'       => 'Negro con detalles naranja',
+);
+
+// Segunda foto de la galería por tipo; sin entrada, se usa un acercamiento de la foto principal.
+$type_gallery = array(
+    'Funda' => 'demo-funda-abierta.jpg',
+    'Mica'  => 'demo-mica-limpieza.jpg',
 );
 
 $base_dir = WP_CONTENT_DIR . '/themes/case-tech/';
@@ -290,6 +338,24 @@ foreach ( $catalog as $item ) {
         $color_attribute->set_variation( true );
         $product_attributes[] = $color_attribute;
     }
+    $specs = $type_specs[ $type ];
+    if ( ! $is_variable && isset( $image_colors[ $item['image'] ] ) ) {
+        $specs['Color'] = $image_colors[ $item['image'] ];
+    }
+    if ( $is_variable ) {
+        $specs['Material'] = 'TPU flexible: negro mate o transparente';
+    }
+    $position = 3;
+    foreach ( $specs as $label => $value ) {
+        // Atributo local (sin taxonomía): solo informativo, no crea filtros.
+        $spec_attribute = new WC_Product_Attribute();
+        $spec_attribute->set_name( $label );
+        $spec_attribute->set_options( array( $value ) );
+        $spec_attribute->set_position( $position++ );
+        $spec_attribute->set_visible( true );
+        $spec_attribute->set_variation( false );
+        $product_attributes[] = $spec_attribute;
+    }
     if ( $product_attributes ) {
         $product->set_attributes( $product_attributes );
     }
@@ -300,7 +366,11 @@ foreach ( $catalog as $item ) {
         if ( $attachment_id ) {
             $product->set_image_id( $attachment_id );
         }
-        $detail_id = case_tech_demo_attachment( $image_path, 'detalle-' . $item['image'], 'Detalle demo: ' . $item['model'], true );
+        if ( isset( $type_gallery[ $type ] ) && file_exists( $base_dir . $type_gallery[ $type ] ) ) {
+            $detail_id = case_tech_demo_attachment( $base_dir . $type_gallery[ $type ], $type_gallery[ $type ], 'Galería demo: ' . $type );
+        } else {
+            $detail_id = case_tech_demo_attachment( $image_path, 'detalle-' . $item['image'], 'Detalle demo: ' . $item['model'], true );
+        }
         if ( $detail_id ) {
             $product->set_gallery_image_ids( array( $detail_id ) );
         }
@@ -347,6 +417,24 @@ foreach ( $ids_by_model as $model_ids ) {
         $model_product = wc_get_product( $model_product_id );
         $model_product->set_cross_sell_ids( array_values( array_diff( $model_ids, array( $model_product_id ) ) ) );
         $model_product->save();
+    }
+}
+
+// Créditos de fotos externas (ver themes/case-tech/CREDITOS-IMAGENES.md): van en la leyenda, que muestra el lightbox.
+$image_credits = array(
+    'demo-funda.jpg'         => 'Foto: Budget Bizar (Pexels)',
+    'demo-funda-correa.jpg'  => 'Foto: Santeri Viinamäki, CC BY-SA 4.0 (Wikimedia Commons)',
+    'demo-funda-abierta.jpg' => 'Foto: Acabashi, CC BY-SA 4.0 (Wikimedia Commons)',
+    'demo-mica.jpg'          => 'Foto: Rann Vijay (Pexels)',
+    'demo-mica-2.jpg'        => 'Foto: Rann Vijay (Pexels)',
+    'demo-mica-limpieza.jpg' => 'Foto: Towfiqu barbhuiya (Pexels)',
+);
+foreach ( $image_credits as $source_key => $credit ) {
+    foreach ( array( $source_key, 'detalle-' . $source_key ) as $key ) {
+        $ids = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'posts_per_page' => 1, 'meta_key' => '_case_tech_source_file', 'meta_value' => $key, 'fields' => 'ids' ) );
+        if ( $ids ) {
+            wp_update_post( array( 'ID' => $ids[0], 'post_excerpt' => $credit ) );
+        }
     }
 }
 
