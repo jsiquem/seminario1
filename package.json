@@ -1,0 +1,8 @@
+{
+  "name": "case-tech",
+  "private": true,
+  "description": "Entorno local de Case-Tech con WordPress Playground (sin Docker).",
+  "scripts": {
+    "dev": "npx -y @wp-playground/cli@latest server --login --blueprint=playground/blueprint.json --mount-dir ./wordpress/wp-content/themes/case-tech /wordpress/wp-content/themes/case-tech --mount-dir ./wordpress/wp-content/plugins/case-tech-custom /wordpress/wp-content/plugins/case-tech-custom --define-bool WP_DEBUG true --define-bool WP_DEBUG_LOG true --define-bool WP_DEBUG_DISPLAY false"
+  }
+}

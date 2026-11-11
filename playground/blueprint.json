@@ -1,0 +1,29 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "features": { "networking": true },
+  "steps": [
+    {
+      "step": "installPlugin",
+      "pluginData": { "resource": "wordpress.org/plugins", "slug": "woocommerce" },
+      "options": { "activate": true }
+    },
+    { "step": "setSiteLanguage", "language": "es_ES" },
+    { "step": "activatePlugin", "pluginPath": "case-tech-custom/case-tech-custom.php" },
+    { "step": "activateTheme", "themeFolderName": "case-tech" },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "Case-Tech",
+        "permalink_structure": "/%postname%/",
+        "woocommerce_onboarding_profile": { "skipped": true },
+        "woocommerce_coming_soon": "no"
+      }
+    },
+    { "step": "wp-cli", "command": "wp eval-file wp-content/plugins/case-tech-custom/configure-store.php" },
+    { "step": "wp-cli", "command": "wp eval-file wp-content/plugins/case-tech-custom/create-store-pages.php" },
+    { "step": "wp-cli", "command": "wp eval-file wp-content/plugins/case-tech-custom/import-demo-products.php" },
+    { "step": "wp-cli", "command": "wp rewrite flush" }
+  ]
+}

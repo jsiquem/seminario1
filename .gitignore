@@ -11,3 +11,4 @@ wordpress/wp-content/cache/
 .idea/
 .vscode/
 Thumbs.db
+node_modules/

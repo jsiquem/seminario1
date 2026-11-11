@@ -50,6 +50,21 @@ docker compose ps
 
 Abre WordPress en `http://localhost:8080` y Mailpit en `http://localhost:8025`.
 
+## Windows sin Docker (WordPress Playground)
+
+Para PCs donde no se puede instalar Docker. Solo requiere Node.js 20 o superior e Internet. No necesita PHP, MariaDB ni permisos de administrador.
+
+```powershell
+npm run dev
+```
+
+Se abre `http://127.0.0.1:9400` con sesión de administrador iniciada. El blueprint `playground/blueprint.json` instala WooCommerce en español, activa el tema `case-tech` y el plugin `case-tech-custom`, y ejecuta `configure-store.php`, `create-store-pages.php` e `import-demo-products.php`.
+
+- El tema y el plugin se montan desde el repositorio: edita en VS Code y recarga el navegador.
+- La base de datos es SQLite y se reinicia en cada arranque; el blueprint reconstruye la tienda demo. No cargues datos definitivos aquí.
+- No hay Mailpit: los correos y la validación con MariaDB se hacen en Docker o en Codespaces.
+- Para detener el servidor: `Ctrl + C` en la terminal.
+
 ## Linux
 
 Instala Docker Engine, el plugin Docker Compose y Git. Luego ejecuta:
