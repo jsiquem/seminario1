@@ -8,7 +8,14 @@ $brand_urls = array(
     'Huawei' => case_tech_brand_url( 'Huawei' ),
     'Xiaomi' => case_tech_brand_url( 'Xiaomi' ),
 );
-$products = function_exists( 'wc_get_products' ) ? wc_get_products( array( 'limit' => 4, 'status' => 'publish', 'orderby' => 'date', 'order' => 'DESC' ) ) : array();
+// Los destacados se eligen en WooCommerce (estrella en Productos); si no hay, se muestran los más recientes.
+$products = array();
+if ( function_exists( 'wc_get_products' ) ) {
+    $products = wc_get_products( array( 'limit' => 4, 'status' => 'publish', 'featured' => true ) );
+    if ( ! $products ) {
+        $products = wc_get_products( array( 'limit' => 4, 'status' => 'publish', 'orderby' => 'date', 'order' => 'DESC' ) );
+    }
+}
 $hero_image = get_theme_file_uri( 'demo-iphone-15-case.jpg' );
 ?>
 <main id="main-content">

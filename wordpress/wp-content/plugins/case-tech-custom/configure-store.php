@@ -54,6 +54,10 @@ update_option(
 update_option( 'woocommerce_checkout_phone_field', 'required' );
 update_option( 'woocommerce_checkout_company_field', 'hidden' );
 
+// Stock: avisar "Solo quedan N" desde 3 unidades; con más solo se indica que hay existencias.
+update_option( 'woocommerce_stock_format', 'low_amount' );
+update_option( 'woocommerce_notify_low_stock_amount', 3 );
+
 $zone = null;
 foreach ( WC_Shipping_Zones::get_zones() as $zone_data ) {
     if ( isset( $zone_data['zone_name'] ) && 'Guatemala' === $zone_data['zone_name'] ) {

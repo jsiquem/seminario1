@@ -354,3 +354,25 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Prueba en el navegador (Playwright, 1280 px):** Case iPhone 15 Negro → carrito con Q169 + Q25 = Q194. El checkout pide correo, nombre, dirección, ciudad, departamento y teléfono. Con "1234" muestra un error en español; con "+502 5555-1234" crea el pedido #56 y la confirmación muestra el número, el total, las instrucciones y la cuenta BAM demo.
 - **Alertas/faltantes:** el botón "Finalizar compra" del carrito es gris (estilo por defecto de los bloques), no naranja. No se probó en móvil. Los correos solo se pueden revisar en Docker o Codespaces (Mailpit).
 - **Siguiente paso:** P5 (destacados desde WooCommerce, ventas cruzadas y mensajes de stock), o los correos en Codespaces.
+
+
+### 2026-11-11 — P5: conversión
+
+- **Cambio:** la portada toma los productos marcados como destacados en WooCommerce; si no hay ninguno, muestra los 4 más recientes. El importador destaca iPhone 15, Galaxy A15, nova 11i y Redmi Note 13, y deja el P30 lite con 3 unidades para mostrar el aviso de stock bajo.
+- **Cambio (stock):** `configure-store.php` fija `woocommerce_stock_format = low_amount` y el umbral en 3. El resumen de la ficha usa `get_availability()` ("Solo quedan 3 disponibles", "Hay existencias", "Agotado"). Se quita el párrafo de stock nativo (`woocommerce_get_stock_html`) salvo en las variaciones, donde es la única forma de ver el stock de cada color.
+- **Cambio:** enlace "Seguir comprando" en `wc_add_to_cart_message_html` y después del bloque `woocommerce/proceed-to-checkout-block`.
+- **Cambio (tema):** botón flotante de WhatsApp (`wa.me`) con el número del Personalizador (`case_tech_whatsapp`, demo 50200000000). Se oculta en el carrito y el checkout porque en móvil tapaba "Finalizar compra". CSS 0.1.4.
+- **Validación:** la portada muestra Redmi Note 13, nova 11i, Galaxy A15 e iPhone 15. P30 lite: "Solo quedan 3 disponibles"; A15: "Hay existencias". En móvil (375 px), el aviso de añadido muestra "Ver carrito" y "Seguir comprando", y el enlace del carrito lleva a `/shop/`. Sin errores fatales ni desborde horizontal.
+- **Pendiente:** las ventas cruzadas esperan a que existan micas y fundas. Falta verificar el carrito persistente con una cuenta de cliente.
+- **Siguiente paso:** P6 (calidad, accesibilidad y responsive) o los correos en Codespaces.
+
+
+### 2026-11-11 — Catálogo ampliado a 28 productos (case, funda y mica)
+
+- **Decisión del usuario:** 4 productos más por marca, mezclados. Por marca: 2 cases de modelos nuevos, 1 funda y 1 mica para modelos que ya tenían case.
+- **Nuevos:** cases para iPhone 12 y 14, Galaxy A25 y S23, nova 12i y nova Y70, Redmi 12 y Redmi Note 12. Fundas para iPhone 13, Galaxy A55, P30 lite y Redmi Note 13. Micas para iPhone 15, Galaxy A15, nova 11i y POCO X6. Las SKU de los nuevos tipos usan el prefijo `FUNDA-` o `MICA-`.
+- **Imágenes:** los cases nuevos reutilizan la foto demo del modelo más parecido de su marca. Fundas y micas usan 2 ilustraciones genéricas nuevas (`demo-funda.jpg`, `demo-mica.jpg`, unos 50 KB), dibujadas en SVG y convertidas a JPG con Chrome. Llevan el texto "imagen ilustrativa" para no presentar la foto de un case como si fuera una mica.
+- **Importador:** el campo `type` del catálogo (por defecto Case) define el nombre, el slug, el término `pa_tipo-producto` y los textos (`$type_texts`). Las micas se describen como repuesto sin instalación. Al final se asignan ventas cruzadas entre los productos del mismo modelo.
+- **Validación:** la Store API devuelve 28 productos, con 5 cases, 1 funda y 1 mica por marca, cada uno con 2 imágenes. El filtro de tipo ofrece Case, Funda y Mica (4 micas y 4 fundas); Apple + iPhone 15 devuelve 2. En el carrito, el Case Galaxy A15 muestra "Puede que te interese… Mica Galaxy A15, Q59.00".
+- **Hallazgo:** como `.entry-content` limita el ancho a 780 px, el carrito de bloques usa el diseño `is-medium` (una columna). Si el botón "Finalizar compra" queda fuera de la pantalla, se oculta hasta que se baja hasta él (comportamiento sticky de WooCommerce). No es un error, pero las capturas de página completa no lo muestran.
+- **Pendiente:** el root de categorías sigue llamándose "Cases" aunque ahora incluye fundas y micas. Faltan fotos reales.

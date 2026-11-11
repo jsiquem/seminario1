@@ -79,7 +79,7 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 - [x] Enlaces de la portada conectados a categorías reales.
 - [x] Aviso de compatibilidad en la página de catálogo.
 - [x] Formulario de filtros dirigido al archivo real de la tienda, no a la portada.
-- [x] Filtro por tipo de producto (`pa_tipo-producto`; los 12 demo son "Case"). Funda y mica se añaden al cargar esos productos.
+- [x] Filtro por tipo de producto (`pa_tipo-producto`: Case, Funda y Mica).
 - [x] Mensaje de "sin resultados" con un botón para limpiar los filtros.
 - [x] Prueba: `Inicio → Samsung → Galaxy A15` debe mostrar solo el modelo correspondiente.
 
@@ -141,14 +141,14 @@ El comprador debe poder encontrar productos por marca, modelo compatible y dispo
 
 ## Prioridad 5 — Conversión y recompra
 
-**Estado: Pendiente.**
+**Estado: Validada en Playground el 2026-11-11, salvo el carrito persistente.**
 
-- [ ] Productos destacados en la portada, tomados de WooCommerce (producto destacado) y no fijos en el código.
-- [ ] Recomendaciones relacionadas y ventas cruzadas en el carrito.
-- [ ] Mensajes de stock ("Quedan 3", "Agotado").
-- [ ] Carrito persistente para usuarios con sesión (nativo de WooCommerce: solo verificar).
-- [ ] CTA de "continuar comprando" en el carrito y tras agregar un producto.
-- [ ] Botón de WhatsApp con un número demo configurable desde el administrador, sin integración real.
+- [x] Productos destacados en la portada, tomados de WooCommerce (estrella de destacado); si no hay, se muestran los más recientes. El importador destaca uno por marca.
+- [x] Ventas cruzadas en el carrito: case, funda y mica del mismo modelo se recomiendan entre sí ("Puede que te interese…"). Los relacionados por marca ya funcionaban (P2).
+- [x] Mensajes de stock: "Solo quedan 3 disponibles" desde 3 unidades (`woocommerce_stock_format = low_amount`), "Hay existencias" o "Agotado". Demo: P30 lite con 3 unidades.
+- [ ] Carrito persistente para usuarios con sesión (nativo de WooCommerce): falta verificarlo con una cuenta de cliente.
+- [x] "Seguir comprando" en el aviso de producto añadido y bajo "Finalizar compra" en el carrito.
+- [x] Botón de WhatsApp (enlace `wa.me`) con un número demo editable en Apariencia → Personalizar → Contacto; vacío lo oculta. No aparece en el carrito ni en el checkout.
 
 ## Prioridad 6 — Calidad, accesibilidad y responsive
 

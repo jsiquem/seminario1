@@ -14,10 +14,47 @@ function case_tech_setup() {
 add_action( 'after_setup_theme', 'case_tech_setup' );
 
 function case_tech_assets() {
-    wp_enqueue_style( 'case-tech-style', get_stylesheet_uri(), array(), '0.1.3' );
+    wp_enqueue_style( 'case-tech-style', get_stylesheet_uri(), array(), '0.1.4' );
     wp_enqueue_script( 'case-tech-menu', get_theme_file_uri( 'assets/js/menu.js' ), array(), '0.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'case_tech_assets' );
+
+// Número de WhatsApp editable en Apariencia → Personalizar → Contacto (solo un enlace wa.me, sin integración).
+function case_tech_customize_register( $wp_customize ) {
+    $wp_customize->add_section( 'case_tech_contact', array( 'title' => 'Contacto', 'priority' => 160 ) );
+    $wp_customize->add_setting(
+        'case_tech_whatsapp',
+        array(
+            'default'           => '50200000000',
+            'sanitize_callback' => 'case_tech_sanitize_phone_digits',
+        )
+    );
+    $wp_customize->add_control(
+        'case_tech_whatsapp',
+        array(
+            'section'     => 'case_tech_contact',
+            'label'       => 'Número de WhatsApp',
+            'description' => 'Solo dígitos, con código de país (502). Déjalo vacío para ocultar el botón. El número por defecto es demo.',
+            'type'        => 'text',
+        )
+    );
+}
+add_action( 'customize_register', 'case_tech_customize_register' );
+
+function case_tech_sanitize_phone_digits( $value ) {
+    return preg_replace( '/\D/', '', (string) $value );
+}
+
+function case_tech_whatsapp_button() {
+    $number = case_tech_sanitize_phone_digits( get_theme_mod( 'case_tech_whatsapp', '50200000000' ) );
+    // En carrito y checkout el botón flotante tapaba "Finalizar compra" en móvil.
+    if ( ! $number || ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) ) {
+        return;
+    }
+    $url = 'https://wa.me/' . $number . '?text=' . rawurlencode( 'Hola Case-Tech, tengo una consulta sobre un producto.' );
+    echo '<a class="whatsapp-button" href="' . esc_url( $url ) . '" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp (se abre en una pestaña nueva)">WhatsApp</a>';
+}
+add_action( 'wp_footer', 'case_tech_whatsapp_button' );
 
 // woocommerce.php ya imprime el título del catálogo; evita el H1 duplicado.
 add_filter( 'woocommerce_show_page_title', '__return_false' );

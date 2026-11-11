@@ -371,7 +371,9 @@ function case_tech_product_sales_summary() {
     }
 
     $model_label = case_tech_product_model_label( $product );
-    $stock_label = $product->is_in_stock() ? 'En existencia' : 'Agotado';
+    // Con stock_format = low_amount, WooCommerce da "Solo quedan N…" cuando queda poco.
+    $availability = $product->get_availability();
+    $stock_label  = ! empty( $availability['availability'] ) ? $availability['availability'] : ( $product->is_in_stock() ? 'Hay existencias' : 'Agotado' );
     $stock_class = $product->is_in_stock() ? 'is-available' : 'is-unavailable';
     ?>
     <section class="case-product-summary" aria-label="Información de compra">
@@ -387,6 +389,27 @@ function case_tech_product_sales_summary() {
     <?php
 }
 add_action( 'woocommerce_single_product_summary', 'case_tech_product_sales_summary', 25 );
+
+// El resumen ya muestra el stock; solo las variaciones conservan el aviso nativo (cambia según el color).
+function case_tech_hide_duplicate_stock_html( $html, $product ) {
+    return $product instanceof WC_Product_Variation ? $html : '';
+}
+add_filter( 'woocommerce_get_stock_html', 'case_tech_hide_duplicate_stock_html', 10, 2 );
+
+// "Seguir comprando" junto al aviso de producto añadido y bajo el botón de pago del carrito.
+function case_tech_continue_shopping_link() {
+    return '<a class="case-continue-shopping" href="' . esc_url( case_tech_custom_catalog_form_url() ) . '">Seguir comprando</a>';
+}
+
+function case_tech_add_to_cart_message( $message ) {
+    return $message . ' ' . case_tech_continue_shopping_link();
+}
+add_filter( 'wc_add_to_cart_message_html', 'case_tech_add_to_cart_message' );
+
+function case_tech_cart_continue_shopping( $block_content ) {
+    return $block_content . case_tech_continue_shopping_link();
+}
+add_filter( 'render_block_woocommerce/proceed-to-checkout-block', 'case_tech_cart_continue_shopping' );
 
 function case_tech_product_compatibility_notice() {
     global $product;

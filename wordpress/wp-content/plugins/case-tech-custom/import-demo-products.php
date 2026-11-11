@@ -18,16 +18,52 @@ require_once ABSPATH . 'wp-admin/includes/image.php';
 $catalog = array(
     array( 'brand' => 'Apple',   'model' => 'iPhone 11',      'slug' => 'iphone-11',      'sku' => 'CASE-APPLE-11',       'price' => '149.00', 'image' => 'demo-iphone-11-case.jpg' ),
     array( 'brand' => 'Apple',   'model' => 'iPhone 13',      'slug' => 'iphone-13',      'sku' => 'CASE-APPLE-13',       'price' => '159.00', 'image' => 'demo-iphone-13-case.jpg' ),
-    array( 'brand' => 'Apple',   'model' => 'iPhone 15',      'slug' => 'iphone-15',      'sku' => 'CASE-APPLE-15',       'price' => '169.00', 'image' => 'demo-iphone-15-case.jpg', 'colors' => array( 'Negro', 'Transparente' ) ),
-    array( 'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',     'sku' => 'CASE-SAMSUNG-A15',    'price' => '129.00', 'image' => 'demo-samsung-a15-case.jpg' ),
+    array( 'brand' => 'Apple',   'model' => 'iPhone 15',      'slug' => 'iphone-15',      'sku' => 'CASE-APPLE-15',       'price' => '169.00', 'image' => 'demo-iphone-15-case.jpg', 'colors' => array( 'Negro', 'Transparente' ) , 'featured' => true ),
+    array( 'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',     'sku' => 'CASE-SAMSUNG-A15',    'price' => '129.00', 'image' => 'demo-samsung-a15-case.jpg' , 'featured' => true ),
     array( 'brand' => 'Samsung', 'model' => 'Galaxy A55',    'slug' => 'galaxy-a55',     'sku' => 'CASE-SAMSUNG-A55',    'price' => '149.00', 'image' => 'demo-samsung-a55-case.jpg' ),
     array( 'brand' => 'Samsung', 'model' => 'Galaxy S24',    'slug' => 'galaxy-s24',     'sku' => 'CASE-SAMSUNG-S24',    'price' => '169.00', 'image' => 'demo-samsung-s24-case.jpg' ),
     array( 'brand' => 'Huawei',  'model' => 'Y9a',           'slug' => 'huawei-y9a',     'sku' => 'CASE-HUAWEI-Y9A',     'price' => '129.00', 'image' => 'demo-huawei-y9a-case.jpg' ),
-    array( 'brand' => 'Huawei',  'model' => 'nova 11i',      'slug' => 'huawei-nova-11i', 'sku' => 'CASE-HUAWEI-NOVA11I', 'price' => '139.00', 'image' => 'demo-huawei-nova-11i-case.jpg' ),
-    array( 'brand' => 'Huawei',  'model' => 'P30 lite',      'slug' => 'huawei-p30-lite', 'sku' => 'CASE-HUAWEI-P30LITE',  'price' => '119.00', 'image' => 'demo-huawei-p30-lite-case.jpg' ),
+    array( 'brand' => 'Huawei',  'model' => 'nova 11i',      'slug' => 'huawei-nova-11i', 'sku' => 'CASE-HUAWEI-NOVA11I', 'price' => '139.00', 'image' => 'demo-huawei-nova-11i-case.jpg' , 'featured' => true ),
+    array( 'brand' => 'Huawei',  'model' => 'P30 lite',      'slug' => 'huawei-p30-lite', 'sku' => 'CASE-HUAWEI-P30LITE',  'price' => '119.00', 'image' => 'demo-huawei-p30-lite-case.jpg' , 'stock' => 3 ),
     array( 'brand' => 'Xiaomi',  'model' => 'Redmi 13C',     'slug' => 'redmi-13c',      'sku' => 'CASE-XIAOMI-13C',     'price' => '119.00', 'image' => 'demo-xiaomi-redmi-13c-case.jpg' ),
-    array( 'brand' => 'Xiaomi',  'model' => 'Redmi Note 13', 'slug' => 'redmi-note-13',  'sku' => 'CASE-XIAOMI-NOTE13',  'price' => '139.00', 'image' => 'demo-xiaomi-redmi-note-13-case.jpg' ),
+    array( 'brand' => 'Xiaomi',  'model' => 'Redmi Note 13', 'slug' => 'redmi-note-13',  'sku' => 'CASE-XIAOMI-NOTE13',  'price' => '139.00', 'image' => 'demo-xiaomi-redmi-note-13-case.jpg' , 'featured' => true ),
     array( 'brand' => 'Xiaomi',  'model' => 'POCO X6',        'slug' => 'poco-x6',        'sku' => 'CASE-XIAOMI-POCOX6',  'price' => '149.00', 'image' => 'demo-xiaomi-poco-x6-case.jpg' ),
+
+    // Cases de modelos nuevos: usan la foto demo del modelo más parecido de la marca (reemplazable).
+    array( 'brand' => 'Apple',   'model' => 'iPhone 12',     'slug' => 'iphone-12',      'sku' => 'CASE-APPLE-12',        'price' => '139.00', 'image' => 'demo-iphone-11-case.jpg' ),
+    array( 'brand' => 'Apple',   'model' => 'iPhone 14',     'slug' => 'iphone-14',      'sku' => 'CASE-APPLE-14',        'price' => '159.00', 'image' => 'demo-iphone-13-case.jpg' ),
+    array( 'brand' => 'Samsung', 'model' => 'Galaxy A25',    'slug' => 'galaxy-a25',     'sku' => 'CASE-SAMSUNG-A25',     'price' => '129.00', 'image' => 'demo-samsung-a15-case.jpg' ),
+    array( 'brand' => 'Samsung', 'model' => 'Galaxy S23',    'slug' => 'galaxy-s23',     'sku' => 'CASE-SAMSUNG-S23',     'price' => '159.00', 'image' => 'demo-samsung-s24-case.jpg' ),
+    array( 'brand' => 'Huawei',  'model' => 'nova 12i',      'slug' => 'huawei-nova-12i', 'sku' => 'CASE-HUAWEI-NOVA12I', 'price' => '139.00', 'image' => 'demo-huawei-nova-11i-case.jpg' ),
+    array( 'brand' => 'Huawei',  'model' => 'nova Y70',      'slug' => 'huawei-nova-y70', 'sku' => 'CASE-HUAWEI-NOVAY70', 'price' => '119.00', 'image' => 'demo-huawei-y9a-case.jpg' ),
+    array( 'brand' => 'Xiaomi',  'model' => 'Redmi 12',      'slug' => 'redmi-12',       'sku' => 'CASE-XIAOMI-12',       'price' => '119.00', 'image' => 'demo-xiaomi-redmi-13c-case.jpg' ),
+    array( 'brand' => 'Xiaomi',  'model' => 'Redmi Note 12', 'slug' => 'redmi-note-12',  'sku' => 'CASE-XIAOMI-NOTE12',   'price' => '129.00', 'image' => 'demo-xiaomi-redmi-note-13-case.jpg' ),
+
+    // Fundas y micas para modelos que ya tienen case: activan el filtro por tipo y las ventas cruzadas.
+    array( 'type' => 'Funda', 'brand' => 'Apple',   'model' => 'iPhone 13',     'slug' => 'iphone-13',       'sku' => 'FUNDA-APPLE-13',       'price' => '169.00', 'image' => 'demo-funda.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Apple',   'model' => 'iPhone 15',     'slug' => 'iphone-15',       'sku' => 'MICA-APPLE-15',        'price' => '69.00',  'image' => 'demo-mica.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Samsung', 'model' => 'Galaxy A55',    'slug' => 'galaxy-a55',      'sku' => 'FUNDA-SAMSUNG-A55',    'price' => '159.00', 'image' => 'demo-funda.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Samsung', 'model' => 'Galaxy A15',    'slug' => 'galaxy-a15',      'sku' => 'MICA-SAMSUNG-A15',     'price' => '59.00',  'image' => 'demo-mica.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Huawei',  'model' => 'P30 lite',      'slug' => 'huawei-p30-lite', 'sku' => 'FUNDA-HUAWEI-P30LITE', 'price' => '149.00', 'image' => 'demo-funda.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Huawei',  'model' => 'nova 11i',      'slug' => 'huawei-nova-11i', 'sku' => 'MICA-HUAWEI-NOVA11I',  'price' => '59.00',  'image' => 'demo-mica.jpg' ),
+    array( 'type' => 'Funda', 'brand' => 'Xiaomi',  'model' => 'Redmi Note 13', 'slug' => 'redmi-note-13',   'sku' => 'FUNDA-XIAOMI-NOTE13',  'price' => '149.00', 'image' => 'demo-funda.jpg' ),
+    array( 'type' => 'Mica',  'brand' => 'Xiaomi',  'model' => 'POCO X6',       'slug' => 'poco-x6',         'sku' => 'MICA-XIAOMI-POCOX6',   'price' => '69.00',  'image' => 'demo-mica.jpg' ),
+);
+
+// Textos por tipo: %1$s = marca, %2$s = modelo.
+$type_texts = array(
+    'Case'  => array(
+        '<p>Protege tu <strong>%1$s %2$s</strong> con un case diseñado para acompañarte todos los días. Su estructura de acabado sobrio ayuda a reducir el impacto de golpes, roces y pequeñas caídas mientras conserva un acceso cómodo a los botones, puertos y cámara.</p><p>El diseño está pensado para mantener un buen agarre sin añadir volumen innecesario. La abertura de cámara está alineada con el modelo compatible y los bordes elevados ayudan a mantener la pantalla y el módulo fotográfico alejados de superficies planas.</p><h3>Características</h3><ul><li>Compatibilidad: %1$s %2$s.</li><li>Material protector con acabado mate y cómodo al tacto.</li><li>Acceso preciso a botones, cámara, altavoces y puerto de carga.</li><li>Producto nuevo de demostración, empacado para despacho local.</li></ul><p><strong>Nota:</strong> verifica el modelo exacto de tu teléfono antes de comprar. La imagen, el precio y el inventario corresponden a datos demo del entorno local.</p>',
+        'Case protector de acabado mate para %1$s %2$s, con buen agarre, acceso preciso a controles y protección diaria.',
+    ),
+    'Funda' => array(
+        '<p>Funda tipo cartera para <strong>%1$s %2$s</strong>: cubre el frente y la parte trasera del teléfono y guarda tus tarjetas en el mismo lugar.</p><p>La tapa protege la pantalla dentro del bolso o la mochila y se cierra con broche magnético. El soporte interno sujeta el teléfono sin retirarlo para usar la cámara o cargarlo.</p><h3>Características</h3><ul><li>Compatibilidad: %1$s %2$s.</li><li>Tres ranuras para tarjetas y un bolsillo para billetes.</li><li>Cierre magnético y tapa que funciona como soporte horizontal.</li><li>Producto nuevo de demostración, empacado para despacho local.</li></ul><p><strong>Nota:</strong> verifica el modelo exacto de tu teléfono antes de comprar. La imagen es ilustrativa y el precio y el inventario corresponden a datos demo del entorno local.</p>',
+        'Funda tipo cartera para %1$s %2$s, con ranuras para tarjetas, cierre magnético y protección frontal.',
+    ),
+    'Mica'  => array(
+        '<p>Mica de vidrio templado para <strong>%1$s %2$s</strong>, cortada a la medida de la pantalla para protegerla de rayones y golpes en los bordes.</p><p>Se entrega como repuesto sin instalación: incluye toallita de limpieza y guía para colocarla en casa sin burbujas.</p><h3>Características</h3><ul><li>Compatibilidad: %1$s %2$s.</li><li>Vidrio templado de 9H con bordes redondeados.</li><li>Conserva la sensibilidad táctil y la nitidez de la pantalla.</li><li>Incluye kit de limpieza; no incluye instalación.</li></ul><p><strong>Nota:</strong> verifica el modelo exacto de tu teléfono antes de comprar. La imagen es ilustrativa y el precio y el inventario corresponden a datos demo del entorno local.</p>',
+        'Mica de vidrio templado para %1$s %2$s, con kit de limpieza para colocarla en casa.',
+    ),
 );
 
 $base_dir = WP_CONTENT_DIR . '/themes/case-tech/';
@@ -78,14 +114,10 @@ if ( ! taxonomy_exists( $type_taxonomy ) ) {
     }
 }
 
-$type_term_id = 0;
+$type_terms = array();
 if ( taxonomy_exists( $type_taxonomy ) ) {
-    $type_term = term_exists( 'Case', $type_taxonomy );
-    if ( ! $type_term ) {
-        $type_term = wp_insert_term( 'Case', $type_taxonomy, array( 'slug' => 'case' ) );
-    }
-    if ( ! is_wp_error( $type_term ) && $type_term ) {
-        $type_term_id = (int) ( is_array( $type_term ) ? $type_term['term_id'] : $type_term );
+    foreach ( array_keys( $type_texts ) as $type_name ) {
+        $type_terms[ $type_name ] = case_tech_demo_term_id( $type_name, $type_taxonomy );
     }
 }
 
@@ -191,6 +223,7 @@ if ( taxonomy_exists( $attribute_taxonomy ) ) {
 $created = 0;
 $updated = 0;
 $GLOBALS['case_tech_new_images'] = 0;
+$ids_by_model = array();
 
 foreach ( $catalog as $item ) {
     $product_id   = wc_get_product_id_by_sku( $item['sku'] );
@@ -199,22 +232,14 @@ foreach ( $catalog as $item ) {
     $product      = $is_variable ? new WC_Product_Variable( $product_id ) : new WC_Product_Simple( $product_id );
     $is_new       = ! $product_id;
 
-    $product->set_name( 'Case ' . $item['model'] );
-    $product->set_slug( 'case-' . $item['slug'] );
+    $type = isset( $item['type'] ) ? $item['type'] : 'Case';
+    $product->set_name( $type . ' ' . $item['model'] );
+    $product->set_slug( sanitize_title( $type ) . '-' . $item['slug'] );
     $product->set_status( 'publish' );
     $product->set_catalog_visibility( 'visible' );
-    $product->set_description( sprintf(
-        '<p>Protege tu <strong>%s %s</strong> con un case diseñado para acompañarte todos los días. Su estructura de acabado sobrio ayuda a reducir el impacto de golpes, roces y pequeñas caídas mientras conserva un acceso cómodo a los botones, puertos y cámara.</p><p>El diseño está pensado para mantener un buen agarre sin añadir volumen innecesario. La abertura de cámara está alineada con el modelo compatible y los bordes elevados ayudan a mantener la pantalla y el módulo fotográfico alejados de superficies planas.</p><h3>Características</h3><ul><li>Compatibilidad: %s %s.</li><li>Material protector con acabado mate y cómodo al tacto.</li><li>Acceso preciso a botones, cámara, altavoces y puerto de carga.</li><li>Producto nuevo de demostración, empacado para despacho local.</li></ul><p><strong>Nota:</strong> verifica el modelo exacto de tu teléfono antes de comprar. La imagen, el precio y el inventario corresponden a datos demo del entorno local.</p>',
-        $item['brand'],
-        $item['model'],
-        $item['brand'],
-        $item['model']
-    ) );
-    $product->set_short_description( sprintf(
-        'Case protector de acabado mate para %s %s, con buen agarre, acceso preciso a controles y protección diaria.',
-        $item['brand'],
-        $item['model']
-    ) );
+    $product->set_featured( ! empty( $item['featured'] ) );
+    $product->set_description( sprintf( $type_texts[ $type ][0], $item['brand'], $item['model'] ) );
+    $product->set_short_description( sprintf( $type_texts[ $type ][1], $item['brand'], $item['model'] ) );
     $product->set_sku( $item['sku'] );
     if ( $is_variable ) {
         // Precio e inventario viven en cada variación.
@@ -223,7 +248,7 @@ foreach ( $catalog as $item ) {
         $product->set_regular_price( $item['price'] );
         $product->set_price( $item['price'] );
         $product->set_manage_stock( true );
-        $product->set_stock_quantity( 10 );
+        $product->set_stock_quantity( isset( $item['stock'] ) ? $item['stock'] : 10 );
         $product->set_stock_status( 'instock' );
     }
     $product->set_category_ids( array( $cases_term_id, $brand_terms[ $item['brand'] ] ) );
@@ -238,11 +263,11 @@ foreach ( $catalog as $item ) {
         $model_attribute->set_variation( false );
         $product_attributes[] = $model_attribute;
     }
-    if ( $type_term_id ) {
+    if ( ! empty( $type_terms[ $type ] ) ) {
         $type_attribute = new WC_Product_Attribute();
         $type_attribute->set_id( wc_attribute_taxonomy_id_by_name( $type_taxonomy ) );
         $type_attribute->set_name( $type_taxonomy );
-        $type_attribute->set_options( array( $type_term_id ) );
+        $type_attribute->set_options( array( $type_terms[ $type ] ) );
         $type_attribute->set_position( 1 );
         $type_attribute->set_visible( true );
         $type_attribute->set_variation( false );
@@ -306,6 +331,7 @@ foreach ( $catalog as $item ) {
     update_post_meta( $saved_id, '_case_tech_brand', $item['brand'] );
     update_post_meta( $saved_id, '_case_tech_model', $item['model'] );
     update_post_meta( $saved_id, '_case_tech_demo', 'yes' );
+    $ids_by_model[ $item['model'] ][] = $saved_id;
 
     if ( $is_new ) {
         $created++;
@@ -313,6 +339,15 @@ foreach ( $catalog as $item ) {
         $updated++;
     }
     WP_CLI::log( ( $is_new ? 'Creado: ' : 'Actualizado: ' ) . $item['sku'] . ' — ' . $item['model'] );
+}
+
+// Ventas cruzadas: case, funda y mica del mismo modelo se recomiendan entre sí en el carrito.
+foreach ( $ids_by_model as $model_ids ) {
+    foreach ( $model_ids as $model_product_id ) {
+        $model_product = wc_get_product( $model_product_id );
+        $model_product->set_cross_sell_ids( array_values( array_diff( $model_ids, array( $model_product_id ) ) ) );
+        $model_product->save();
+    }
 }
 
 WP_CLI::success( sprintf( 'Catálogo listo: %d creados, %d actualizados, %d imágenes nuevas.', $created, $updated, $GLOBALS['case_tech_new_images'] ) );
