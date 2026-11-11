@@ -98,4 +98,20 @@ if ( $flat_rate_instance ) {
     );
 }
 
+// Títulos en español para las páginas de WooCommerce; los slugs no cambian para no romper URLs.
+$page_titles = array(
+    'shop'      => array( 'Shop', 'Tienda' ),
+    'cart'      => array( 'Cart', 'Carrito' ),
+    'checkout'  => array( 'Checkout', 'Finalizar compra' ),
+    'myaccount' => array( 'My account', 'Mi cuenta' ),
+);
+foreach ( $page_titles as $wc_page => $titles ) {
+    $page_id = wc_get_page_id( $wc_page );
+    // Solo renombra si conserva el título original en inglés: respeta ediciones manuales.
+    if ( $page_id > 0 && $titles[0] === get_the_title( $page_id ) ) {
+        wp_update_post( array( 'ID' => $page_id, 'post_title' => $titles[1] ) );
+        WP_CLI::log( 'Página renombrada: ' . $titles[1] );
+    }
+}
+
 WP_CLI::success( 'Configuración local lista: Guatemala, GTQ, BACS demo y envío plano Q25.00.' );

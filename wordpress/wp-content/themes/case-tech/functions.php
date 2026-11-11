@@ -11,10 +11,13 @@ function case_tech_setup() {
 add_action( 'after_setup_theme', 'case_tech_setup' );
 
 function case_tech_assets() {
-    wp_enqueue_style( 'case-tech-style', get_stylesheet_uri(), array(), '0.1.1' );
+    wp_enqueue_style( 'case-tech-style', get_stylesheet_uri(), array(), '0.1.2' );
     wp_enqueue_script( 'case-tech-menu', get_theme_file_uri( 'assets/js/menu.js' ), array(), '0.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'case_tech_assets' );
+
+// woocommerce.php ya imprime el título del catálogo; evita el H1 duplicado.
+add_filter( 'woocommerce_show_page_title', '__return_false' );
 
 // La lógica vive en el plugin case-tech-custom; el tema solo tiene un respaldo mínimo.
 function case_tech_shop_page_id() {
@@ -44,6 +47,17 @@ function case_tech_shop_url() {
     }
 
     return home_url( '/shop/' );
+}
+
+// La marca es la categoría hija de "cases" (la crea el importador).
+function case_tech_product_brand( $product_id ) {
+    $terms = get_the_terms( $product_id, 'product_cat' );
+    foreach ( is_array( $terms ) ? $terms : array() as $term ) {
+        if ( 'cases' !== $term->slug ) {
+            return $term->name;
+        }
+    }
+    return 'Case-Tech';
 }
 
 function case_tech_cart_url() {

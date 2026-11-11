@@ -312,3 +312,16 @@ Registrar decisiones, avances, problemas, alertas y cambios relevantes para que 
 - **Validación de filtros:** Samsung + Galaxy A15 devuelve 1 producto; Apple devuelve iPhone 11, 13 y 15; Apple + Galaxy A15 devuelve 0 con los filtros visibles.
 - **Alertas/faltantes:** los productos relacionados mezclan marcas (P2). Falta borrar a mano las páginas sobrantes en la instalación Docker. En Docker hay que volver a guardar Ajustes → Enlaces permanentes para que `/shop/` funcione.
 - **Siguiente paso:** revisión visual con capturas (P1 a P3) y productos relacionados por marca.
+
+
+### 2026-11-11 — Revisión visual P1: portada, catálogo y relacionados
+
+- **Prueba realizada:** capturas en 375 y 1280 px con el Chrome instalado (`npx playwright screenshot --channel=chrome`) de Inicio, Tienda, ficha y Contacto.
+- **Corrección:** las tarjetas "Los más buscados" no mostraban el nombre porque el `h3` heredaba texto blanco de `.section-dark` sobre una tarjeta clara (`.product-card{color:var(--ink)}`).
+- **Corrección:** las tarjetas mostraban "CASE-TECH" porque leían un atributo `pa_marca` que no existe; ahora usan la categoría de marca (`case_tech_product_brand()`).
+- **Corrección:** el H1 del catálogo salía duplicado; se aplicó `woocommerce_show_page_title` = false porque `woocommerce.php` ya imprime el título.
+- **Corrección:** `configure-store.php` renombra Shop, Cart, Checkout y My account a Tienda, Carrito, Finalizar compra y Mi cuenta. Solo lo hace si conservan el título original en inglés, y no cambia los slugs.
+- **Corrección:** los productos relacionados ahora son de la misma marca (filtro `woocommerce_get_related_product_cat_terms` sin la raíz `cases`). Galaxy A15 recomienda A55 y S24; iPhone 13 recomienda iPhone 11 y 15.
+- **Corrección:** en móvil, los títulos de tarjeta son más pequeños y "Añadir al carrito" cabe en una línea. `npm run dev` fija el puerto 9400.
+- **Alertas/faltantes:** en las capturas de página completa algunas imágenes salen vacías por la carga diferida, aunque las 12 miniaturas responden 200. La imagen del bloque "Se ve bien" no se pudo confirmar visualmente por el mismo motivo.
+- **Siguiente paso:** galería de imágenes y producto variable (P2), filtro por tipo de producto (P1) y flujo completo de pedido (P4).

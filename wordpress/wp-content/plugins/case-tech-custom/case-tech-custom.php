@@ -274,6 +274,13 @@ add_action( 'woocommerce_before_shop_loop', 'case_tech_catalog_filters', 8 );
 // Sin resultados no se dispara before_shop_loop: mostrar filtros para poder corregir la búsqueda.
 add_action( 'woocommerce_no_products_found', 'case_tech_catalog_filters', 5 );
 
+// Relacionados por marca: se ignora la categoría raíz "cases", que comparten todos los productos.
+function case_tech_related_same_brand( $term_ids ) {
+    $root = get_term_by( 'slug', 'cases', 'product_cat' );
+    return $root ? array_values( array_diff( $term_ids, array( (int) $root->term_id ) ) ) : $term_ids;
+}
+add_filter( 'woocommerce_get_related_product_cat_terms', 'case_tech_related_same_brand' );
+
 function case_tech_product_model_label( $product ) {
     if ( ! $product instanceof WC_Product ) {
         return '';
