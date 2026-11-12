@@ -2,6 +2,10 @@
 
 Para instalar el proyecto en otra PC o ejecutarlo en GitHub Codespaces, consulta [docs/INSTALL.md](docs/INSTALL.md).
 
+## Demo en línea
+
+**[Abrir la tienda demo](https://playground.wordpress.net/?mode=seamless&blueprint-url=https://raw.githubusercontent.com/jsiquem/seminario1/main/playground/blueprint-web.json)**. No requiere instalación: la tienda se arma en tu navegador en 1 o 2 minutos. Cada visita es una copia propia que se borra al cerrar la pestaña. Es una tienda de demostración: no se procesan pagos ni envíos.
+
 ## Requisitos
 - Docker Engine + Docker Compose v2 (o Docker Desktop)
 - Git, 4-8 GB de RAM disponible (recomendado)
