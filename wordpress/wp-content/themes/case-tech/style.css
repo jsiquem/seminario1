@@ -32,3 +32,9 @@ Text Domain: case-tech
 .woocommerce table.shop_attributes td p{margin:0;padding:0}
 .woocommerce table.shop_attributes tr:last-child th,.woocommerce table.shop_attributes tr:last-child td{border-bottom:0}
 .woocommerce table.shop_attributes tr:nth-child(even) th,.woocommerce table.shop_attributes tr:nth-child(even) td{background:transparent}
+/* Aviso de tienda demo (WooCommerce): barra fija abajo para no tapar el menú */
+.woocommerce-store-notice,p.demo_store,.admin-bar .woocommerce-store-notice,.admin-bar p.demo_store{position:fixed;top:auto;bottom:0;left:0;right:0;margin:0;padding:12px 16px;background:var(--ink);color:#fff;font-size:.9rem;text-align:center;box-shadow:0 -8px 24px rgba(23,25,28,.18);z-index:99990}
+.woocommerce-store-notice a,p.demo_store a{color:var(--orange);font-weight:700;margin-left:8px}
+body.woocommerce-demo-store{padding-bottom:56px}
+body.woocommerce-demo-store .whatsapp-button{bottom:76px}
+@media(max-width:600px){body.woocommerce-demo-store{padding-bottom:100px}body.woocommerce-demo-store .whatsapp-button{bottom:112px}}

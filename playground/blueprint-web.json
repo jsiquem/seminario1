@@ -1,0 +1,55 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "Case-Tech (demo en línea)",
+    "description": "Tienda demo de Case-Tech: tema y plugin desde GitHub, catálogo de 28 productos y aviso de tienda de demostración.",
+    "author": "jsiquem"
+  },
+  "landingPage": "/",
+  "login": true,
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "features": { "networking": true },
+  "steps": [
+    {
+      "step": "installPlugin",
+      "pluginData": { "resource": "wordpress.org/plugins", "slug": "woocommerce" },
+      "options": { "activate": true }
+    },
+    { "step": "setSiteLanguage", "language": "es_ES" },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "git:directory",
+        "url": "https://github.com/jsiquem/seminario1",
+        "ref": "main",
+        "path": "wordpress/wp-content/plugins/case-tech-custom"
+      },
+      "options": { "activate": true, "targetFolderName": "case-tech-custom" }
+    },
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "git:directory",
+        "url": "https://github.com/jsiquem/seminario1",
+        "ref": "main",
+        "path": "wordpress/wp-content/themes/case-tech"
+      },
+      "options": { "activate": true, "targetFolderName": "case-tech" }
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "Case-Tech",
+        "permalink_structure": "/%postname%/",
+        "woocommerce_onboarding_profile": { "skipped": true },
+        "woocommerce_coming_soon": "no",
+        "woocommerce_demo_store": "yes",
+        "woocommerce_demo_store_notice": "Tienda de demostración: no se procesan pagos ni envíos. Los pedidos son solo de prueba."
+      }
+    },
+    { "step": "wp-cli", "command": "wp eval-file wp-content/plugins/case-tech-custom/configure-store.php" },
+    { "step": "wp-cli", "command": "wp eval-file wp-content/plugins/case-tech-custom/create-store-pages.php" },
+    { "step": "wp-cli", "command": "wp eval-file wp-content/plugins/case-tech-custom/import-demo-products.php" },
+    { "step": "wp-cli", "command": "wp rewrite flush" }
+  ]
+}
